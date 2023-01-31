@@ -1,8 +1,7 @@
 # Assignment repository for COE332
 Repository of assignment submissions for course COE 332 - Software Engineering & Design.
-
-# Description
-The repository contain the following files:
+<br>
+This repository contain the following files:
 ```
 COE332/
 ├── homework01
@@ -19,6 +18,6 @@ COE332/
 
 
 # Author
-Dhanny Indrakusuma repository
+Name: Dhanny Indrakusuma
 UT EID: dwi67
-email: dhannywi@utexas.edu
+Email: dhannywi@utexas.edu
