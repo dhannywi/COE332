@@ -18,5 +18,5 @@ COE332/
 
 
 # Author
-Name: Dhanny Indrakusuma<br>
+Dhanny Indrakusuma<br>
 dhannywi@utexas.edu<br>
