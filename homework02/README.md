@@ -1,6 +1,6 @@
 # Meteorite Landing Analyzer
 
-<p>Scenario: You are operating a robotic vehicle on Mars and tasked to investigate <b>five</b> meteorite landing sites in <a href="https://en.wikipedia.org/wiki/Syrtis_Major_quadrangle">Syrtis Major</a>. You need to calculate the time your robot takes to investigate the sites so that you can report to your supervisor.<br>
+<p><u>Scenario:</u> You are operating a robotic vehicle on Mars and tasked to investigate <b>five</b> meteorite landing sites in <a href="https://en.wikipedia.org/wiki/Syrtis_Major_quadrangle">Syrtis Major</a>. You need to calculate the time your robot takes to investigate the sites so that you can report to your supervisor.<br>
 
 The Meteorite Landing Analyzer helps you generate five random meteorite landing sites and calculate the travel time between each site, as well as the total time the robot takes to complete its mission.</p>
 
