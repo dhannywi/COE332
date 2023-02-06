@@ -3,21 +3,21 @@
 import json
 import math
 
-ROBOT_LOC = {'latitude': 16.0, 'longtitude': 82.0}
+ROBOT_LOC = {'latitude': 16.0, 'longitude': 82.0}
 MAX_SPEED = 10
 MARS_RADIUS = 3389.5    # km
 STOP_TIME = {'stony': 1, 'iron': 2, 'stony-iron': 3}
 
 def calc_gcd(latitude_1: float, longitude_1: float, latitude_2: float, longitude_2: float) -> float:
     """
-    Given latitude and longtitude values of two points, the function `calc_gdc` calculates distance
+    Given latitude and longitude values of two points, the function `calc_gdc` calculates distance
     between points using the great-circle distance algorithm.
 
     Args:
         `latitude_1` (float): Value of first latitude point
-        `longtitude_1` (float): Value of first longtitude point
+        `longitude_1` (float): Value of first longitude point
         `latitude_2` (float): Value of second latitude point
-        `longtitude_2` (float): Value of second longtitude point
+        `longitude_2` (float): Value of second longitude point
 
     Returns:
         Distance calculation between two points (float), which is the result of multiplication between `MARS_RADIUS` and `d_sigma`
@@ -30,7 +30,7 @@ def calc_times(a_list_of_dicts: dict, a_key_string: str, index: int) -> tuple:
     """
     Iterates through a list of dictionaries, pulling out values associated with a given key at a given index.
     `calc_gcd()` function is then called to compute distance.
-    Returns travel time and sampling time.
+    Returns travel time and sampling time as a tuple.
 
     Args:
         `a_list_of_dicts` (dict): A list of dictionaries, each dict should have the same set of keys
@@ -44,12 +44,12 @@ def calc_times(a_list_of_dicts: dict, a_key_string: str, index: int) -> tuple:
     """
     if index == 0:
         # use robot's initial position and current position to calculate distance
-        distance = calc_gcd(ROBOT_LOC['latitude'], ROBOT_LOC['longtitude'], a_list_of_dicts[a_key_string][index]['latitude'], a_list_of_dicts[a_key_string][index]['longtitude'])
+        distance = calc_gcd(ROBOT_LOC['latitude'], ROBOT_LOC['longitude'], a_list_of_dicts[a_key_string][index]['latitude'], a_list_of_dicts[a_key_string][index]['longitude'])
         travel_time = round(distance/MAX_SPEED, 2)
         sample_time = STOP_TIME[a_list_of_dicts[a_key_string][index]['composition']]
     else:
         # use robot's previous location and current location to calculate distance
-        distance = calc_gcd(a_list_of_dicts[a_key_string][index-1]['latitude'], a_list_of_dicts[a_key_string][index-1]['longtitude'], a_list_of_dicts[a_key_string][index]['latitude'], a_list_of_dicts[a_key_string][index]['longtitude'])
+        distance = calc_gcd(a_list_of_dicts[a_key_string][index-1]['latitude'], a_list_of_dicts[a_key_string][index-1]['longitude'], a_list_of_dicts[a_key_string][index]['latitude'], a_list_of_dicts[a_key_string][index]['longitude'])
         travel_time = round(distance/MAX_SPEED, 2)
         sample_time = STOP_TIME[a_list_of_dicts[a_key_string][index]['composition']]
 
@@ -73,7 +73,7 @@ def main():
         print(f'leg = {i}, time to travel = {times[0]} hr, time to sample = {times[1]} hr')
 
     print('===============================')
-    print(f'number of legs = {i}, total time to sample = {round(total_time, 2)} hr')
+    print(f'number of legs = {i}, total time to sample = {total_time} hr')
 
 if __name__ == '__main__':
     main()

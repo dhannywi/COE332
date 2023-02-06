@@ -19,5 +19,4 @@ COE332/
 
 # Author
 Name: Dhanny Indrakusuma<br>
-UT EID: dwi67<br>
-Email: dhannywi@utexas.edu<br>
+dhannywi@utexas.edu<br>
