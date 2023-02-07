@@ -5,14 +5,15 @@ You can find the water quality data used <a href="https://raw.githubusercontent.
 
 ## Getting Started
 
-<p>
 Install this project by cloning the repository, making the scripts executable, and adding them to your PATH. For example: <br>
+
 `git clone https://github.com/dhannywi/COE332.git`
+
 <br>
 
-This will clone the whole `COE332` folder. However, you will want to change your directory to a folder called `homework03` that contains the scripts and README for the _____. You can do this by executing below command on your terminal: <br>
+This will clone the whole `COE332` folder. However, you will want to change your directory to a folder called `homework03` that contains the scripts and README for the Water Analyzer. You can do this by executing below command on your terminal: <br>
 `cd .\COE332\homework03\`
-</p>
+
 
 ### Dependencies
 
