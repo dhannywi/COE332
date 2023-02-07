@@ -1,6 +1,6 @@
-# Assignment repository for COE332
+# COE332 Repository
 Repository of assignment submissions for course COE 332 - Software Engineering & Design.
-<br>
+<br><br>
 This repository contain the following files:
 ```
 COE332/
