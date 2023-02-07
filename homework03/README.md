@@ -11,17 +11,18 @@ Install this project by cloning the repository, making the scripts executable, a
 
 <br>
 
-After cloning the `COE332` folder, change your directory to `homework03` sub-folder that contains the scripts and README for the Water Analyzer. Execute below command on your terminal to change directory: <br>
+After cloning `COE332`, change your directory to `homework03` sub-folder that contains the scripts and README for the Water Analyzer. Execute below command on your terminal to change directory: <br>
 `cd .\COE332\homework03\`
 
 
 ### Dependencies
 
-The scripts was created using <b>Python 3.8.10</b>, please ensure that you have the same version or higher when running the scripts. You can download Python <a href= "https://www.python.org/">here</a>. The scripts utilizes the following libraries:
-* `json`
-* `math`
-* `requests` -- Install the library prior to running the scripts by executing `pip3 install --user requests` on your terminal
-<br>
+The scripts was created using <b>Python 3.8.10</b>, please ensure that you have the same version or higher when running the scripts. 
+You can download Python <a href= "https://www.python.org/">here</a>. 
+You need to install the libraries below prior to running the scripts:
+* `numpy`: Execute `pip3 install --user numpy` on your terminal to install
+* `pandas`: Execute `pip3 install --user pandas` on your terminal to install
+* `requests`: Execute `pip3 install --user requests` on your terminal to install
 
 ### Executing program
 
