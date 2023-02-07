@@ -8,7 +8,11 @@ The Meteorite Landing Analyzer helps you generate five random meteorite landing 
 
 <p>
 Install this project by cloning the repository, making the scripts executable, and adding them to your PATH. For example:
-`git clone https://github.com/dhannywi/COE332.git` <br>
+<br>
+
+`git clone https://github.com/dhannywi/COE332.git`
+
+<br>
 
 This will clone the whole `COE332` folder. However, you will want to change your directory to a folder called `homework02` that contains the code and README for the Meteorite Landing Analyzer.
 `cd .\COE332\homework02\` <br>
