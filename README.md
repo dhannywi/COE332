@@ -13,6 +13,10 @@ COE332/
 │   ├── json_site_generator.py
 │   ├── parse_site_data.py
 │   └── README.md
+├── homework03
+│   ├── analyze_water.py
+│   ├── README.md
+│   └── test_analyze_water.py
 └── README.md
 ```
 
