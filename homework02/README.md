@@ -15,7 +15,11 @@ Install this project by cloning the repository, making the scripts executable, a
 <br>
 
 This will clone the whole `COE332` folder. However, you will want to change your directory to a folder called `homework02` that contains the code and README for the Meteorite Landing Analyzer.
-`cd .\COE332\homework02\` <br>
+<br>
+
+`cd .\COE332\homework02\`
+
+<br>
 </p>
 
 ### Dependencies
