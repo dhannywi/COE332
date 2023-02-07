@@ -18,8 +18,9 @@ After cloning `COE332`, change your directory to `homework03` sub-folder that co
 ### Dependencies
 
 The scripts was created using <b>Python 3.8.10</b>, please ensure that you have the same version or higher when running the scripts. 
-You can download Python <a href= "https://www.python.org/">here</a>. 
-You need to install the libraries below prior to running the scripts:
+You can download Python <a href= "https://www.python.org/">here</a>.<br> 
+You need to have the libraries below installed prior to running the scripts:
+* `datetime`: part of Python standard libraries
 * `numpy`: Execute `pip3 install --user numpy` on your terminal to install
 * `pandas`: Execute `pip3 install --user pandas` on your terminal to install
 * `requests`: Execute `pip3 install --user requests` on your terminal to install
@@ -36,6 +37,13 @@ This project contains two python scripts:
 #### 1. `analyze_water.py`
 
 #### 2. `test_analyze_water.py`
+
+## Additional Resources
+
+* <a href='https://raw.githubusercontent.com/wjallen/turbidity/main/turbidity_data.json'>Water quality data</a>
+* <a href='https://www.fondriest.com/environmental-measurements/measurements/measuring-water-quality/turbidity-sensors-meters-and-methods/'>Water turbidity equtions</a>
+* <a href='https://www.geeksforgeeks.org/how-to-calculate-moving-average-in-a-pandas-dataframe/'>Calculate MOVING AVERAGE in a Pandas DataFrame</a>
+* <a href='https://pandas.pydata.org/docs/user_guide/timeseries.html#:~:text=pandas%20contains%20extensive%20capabilities%20and,other%20Python%20libraries%20like%20scikits.'>Pandas Timeseries</a>
 
 ## Authors
 Dhanny W Indrakusuma<br>
