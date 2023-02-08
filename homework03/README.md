@@ -19,7 +19,7 @@ After cloning `COE332`, change your directory to `homework03` sub-folder that co
 
 The scripts was created using <b>Python 3.8.10</b>, please ensure that you have the same version or higher when running the scripts. 
 You can download Python <a href= "https://www.python.org/">here</a>.<br> 
-You need to have the libraries below installed prior to running the scripts:
+You need to have the following libraries installed prior to running the scripts:
 * `datetime`: part of Python standard libraries
 * `numpy`: Execute `pip3 install --user numpy` on your terminal to install
 * `pandas`: Execute `pip3 install --user pandas` on your terminal to install
