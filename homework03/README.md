@@ -39,6 +39,7 @@ The script contains three functions:
 
 Execute the command `python3 analyze_water.py` on your terminal to run the script.
 <p>The output might look similar to one of the following sample outputs, depending on whether turbidity is above or below the safe threshold:</p>
+
 ```
 Average turbidity based on most recent five measurements = 0.6631 NTU
 Info: Turbidity is below threshold for safe use
