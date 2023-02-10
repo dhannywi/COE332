@@ -30,9 +30,14 @@ def min_return_time(T0: float) -> float:
         T0 (float): Current turbidity (average value of 5 most recent readings).
     
     Returns:
-        result (float): Minimum time to return below a safe threshold, rounded to 2 decimal points.
+        result (float): Minimum time to return below a safe threshold. Time is 0 if water is already below a safe treshold, otherwise it returns time needed, rounded to 2 decimal points.
     """
-    return round( (log(TS/T0) / log(1-D)), 2)
+    b = round( (log(TS/T0) / log(1-D)), 2)
+    if b < 0:
+        b = 0
+        return b
+    else:
+        return b
 
 
 def main():
@@ -53,10 +58,9 @@ def main():
     # print whether boil water notice is issued and calculates minimum time to return below a safe threshold if necessary
     if avg_turbidity < TS:
         print(f'Info: Turbidity is below threshold for safe use')
-        print(f'Minimum time required to return below a safe threshold = 0 hours')
     else:
         print(f'Warning: Turbidity is above threshold for safe use')
-        print(f'Minimum time required to return below a safe threshold = {min_return_time(avg_turbidity)} hours')
+    print(f'Minimum time required to return below a safe threshold = {min_return_time(avg_turbidity)} hours')
 
 
 if __name__ == '__main__':
