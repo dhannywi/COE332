@@ -1,5 +1,8 @@
-# Water Analyzer
+# Water Turbidity Analyzer
 
+<b>Scenario:</b> Your robot has finished collecting its five meteorite samples and has taken them back to the Mars lab for analysis. In order to analyze the samples, however, you need clean water. You must check the latest water quality data to assess whether it is safe to analyze samples, or if the Mars lab should go on a boil water notice.
+
+The Water Turbidity Analyzer reads in water quality data and analyze the 5 most recent readings to get an average turbidity value. It outputs to the user the current water turbidity (taken as the average of the most recent five data points), information whether turbidity is below the safe threshold, and minimum time required for turbidity to fall below the safe threshold.
 
 You can find the water quality data used <a href="https://raw.githubusercontent.com/wjallen/turbidity/main/turbidity_data.json">here</a>
 
@@ -31,11 +34,12 @@ This project contains two python scripts:
 2.  `test_analyze_water.py`
 
 #### 1. `analyze_water.py`
+This script reads in water quality data and analyze the 5 most recent readings to get an average turbidity value. It outputs to the user the current water turbidity (taken as the average of the most recent five data points), information whether turbidity is below the safe threshold, and minimum time required for turbidity to fall below the safe threshold.
 
 The script contains three functions:
-* `turbidity()`
-* `min_return_time()`
-* `main()` fetches water quality data and analyze the 5 most recent readings to get an average turbidity value. 
+* `turbidity()` calculates water turbidity based on readings taken by a nephelometer.
+* `min_return_time()` calculates minimum time to return below a safe threshold.
+* `main()` fetches water quality data and outputs appropriate information.
 
 Execute the command `python3 analyze_water.py` on your terminal to run the script.
 <p>The output might look similar to one of the following sample outputs, depending on whether turbidity is above or below the safe threshold:</p>
@@ -53,6 +57,11 @@ Minimum time required to return below a safe threshold = 7.09 hours
 ```
 
 #### 2. `test_analyze_water.py`
+The script utilize `pytest` to test if the two functions `turbidity()` `min_return_time()` from `analyze_water` module returns the right values.
+
+This script contains two functions:
+* `test_turbidity()`
+* `test_min_return_time()`
 
 ## Additional Resources
 
