@@ -1,50 +1,63 @@
 #!/usr/bin/env python3
 
 # import libraries
-import datetime
-import numpy as np
-import pandas as pd
 import requests
+from math import log
+
+TS = 1.0 # Turbidity threshold for safe water (in NTU)
+D = 0.02 # decay factor per hour, expressed as a decimal
 
 
-"""
-Equation 1:
-T = a0 * I90
-T = # Turbidity in NTU Units (0 - 40)
-a0 = # Calibration constant
-I90 = # Ninety degree detector current
-"""
+def turbidity(data: list) -> float:
+    """
+    Iterates through a list of dictionaries, calculates water turbidity based on readings taken by a nephelometer.
+    Returns the product of calibration constant and ninety degree detector current.
+    
+    Args:
+        data (list): A list of dictionaries, each dict should have the same set of keys.
 
-"""
-Equation 2:
-Ts > T0(1-d)**b
-Ts = 1.0 # Ts = Turbidity threshold for safe water (in NTU)
-T0 = # T0 = Current turbidity
-d = 0.02 # decay factor per hour, expressed as a decimal
-b = # hours elapsed
-"""
+    Returns:
+        result (float): Water turbidity in NTU Units.
+    """
+    return data['calibration_constant'] * data['detector_current']
 
-# https://www.educative.io/answers/how-to-compute-the-rolling-mean-of-a-time-series-in-python
+
+def min_return_time(T0: float) -> float:
+    """
+    Given the value of current water turbidity, function calculates minimum time to return below a safe threshold.
+
+    Args: 
+        T0 (float): Current turbidity (average value of 5 most recent readings).
+    
+    Returns:
+        result (float): Minimum time to return below a safe threshold, rounded to 2 decimal points.
+    """
+    return round( (log(TS/T0) / log(1-D)), 2)
+
 
 def main():
     # fetch data
     data = requests.get(url='https://raw.githubusercontent.com/wjallen/turbidity/main/turbidity_data.json')
     water_data = data.json()
-    water_df = pd.DataFrame(water_data['turbidity_data'])
+    # get data for 5 most recent readings
+    data_last_5 = [ i for i in water_data['turbidity_data'][-5:] ]
+    
+    # calculate total turbidity and average turbidity of 5 most recent readings
+    total_turbidity = 0
+    for e in data_last_5:
+        total_turbidity += turbidity(e)
+    
+    avg_turbidity = round( (total_turbidity / 5), 4)
+    print(f'Average turbidity based on most recent five measurements = {avg_turbidity} NTU')
 
-    print(water_df)
+    # print whether boil water notice is issued and calculates minimum time to return below a safe threshold if necessary
+    if avg_turbidity < TS:
+        print(f'Info: Turbidity is below threshold for safe use')
+        print(f'Minimum time required to return below a safe threshold = 0 hours')
+    else:
+        print(f'Warning: Turbidity is above threshold for safe use')
+        print(f'Minimum time required to return below a safe threshold = {min_return_time(avg_turbidity)} hours')
 
-'''
-sample output:
-
-Average turbidity based on most recent five measurements = 1.1992 NTU
-Warning: Turbidity is above threshold for safe use
-Minimum time required to return below a safe threshold = 8.99 hours
-
-Average turbidity based on most recent five measurements = 0.9852 NTU
-Info: Turbidity is below threshold for safe use
-Minimum time required to return below a safe threshold = 0 hours
-'''
 
 if __name__ == '__main__':
     main()
