@@ -24,6 +24,7 @@ The scripts was created using <b>Python 3.8.10</b>, please ensure that you have 
 You can download Python <a href= "https://www.python.org/">here</a>.<br> 
 You need to have the following libraries installed prior to running the scripts:
 * `math`: Part of Python standard libraries
+* `pytest`: Execute `pip3 install --user pytest` on your terminal to install
 * `requests`: Execute `pip3 install --user requests` on your terminal to install
 
 ### Executing program
