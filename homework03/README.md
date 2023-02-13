@@ -14,7 +14,7 @@ Install this project by cloning the repository, making the scripts executable, a
 
 <br>
 
-After cloning `COE332`, change your directory to `homework03` sub-folder that contains the scripts and README for the Water Analyzer. Execute below command on your terminal to change directory: <br>
+After cloning `COE332`, change your directory to `homework03` sub-folder that contains the scripts and README for the Water Turbidity Analyzer. Execute below command on your terminal to change directory: <br>
 `cd .\COE332\homework03\`
 
 
