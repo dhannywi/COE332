@@ -4,7 +4,7 @@
 
 The Water Turbidity Analyzer reads in water quality data and analyze the 5 most recent readings to get an average turbidity value. It outputs to the user the current water turbidity (taken as the average of the most recent five data points), information whether turbidity is below the safe threshold, and minimum time required for turbidity to fall below the safe threshold.
 
-You can find the water quality data used <a href="https://raw.githubusercontent.com/wjallen/turbidity/main/turbidity_data.json">here</a>
+You can find the water quality data used <a href="https://raw.githubusercontent.com/wjallen/turbidity/main/turbidity_data.json">here</a>.
 
 ## Getting Started
 
@@ -58,11 +58,11 @@ Minimum time required to return below a safe threshold = 7.09 hours
 ```
 
 #### 2. `test_analyze_water.py`
-The script utilize `pytest` to test if the two functions `turbidity()` `min_return_time()` from `analyze_water` module returns the right values.
+The script utilize `pytest` to test if the two functions `turbidity()` `min_return_time()` from `analyze_water` module returns the expected values.
 
 This script contains two functions:
-* `test_turbidity()`
-* `test_min_return_time()`
+* `test_turbidity()` tests `turbidity()` function from `analyze_water` to ensure that it outputs the right values.
+* `test_min_return_time()` tests `min_return_time()` function from `analyze_water` to ensure that it outputs the right values.
 
 ## Additional Resources
 
