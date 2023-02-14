@@ -8,13 +8,13 @@ TS = 1.0 # Turbidity threshold for safe water (in NTU)
 D = 0.02 # decay factor per hour, expressed as a decimal
 
 
-def turbidity(data: list) -> float:
+def turbidity(data: dict) -> float:
     """
-    Iterates through a list of dictionaries, calculates water turbidity based on readings taken by a nephelometer.
+    Iterates through a dictionary, calculates water turbidity based on readings taken by a nephelometer.
     Returns the product of calibration constant and ninety degree detector current.
     
     Args:
-        data (list): A list of dictionaries, each dict should have the same set of keys.
+        data (dict): Each dictionary should have the same set of keys.
 
     Returns:
         result (float): Water turbidity in NTU Units.
