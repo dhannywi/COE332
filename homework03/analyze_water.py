@@ -60,6 +60,7 @@ def main():
         print(f'Info: Turbidity is below threshold for safe use')
     else:
         print(f'Warning: Turbidity is above threshold for safe use')
+    
     print(f'Minimum time required to return below a safe threshold = {min_return_time(avg_turbidity)} hours')
 
 
