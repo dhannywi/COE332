@@ -64,7 +64,7 @@ This script contains two functions:
 * `test_turbidity()` Tests `turbidity()` function from `analyze_water` module for correct calculation result and correct output type.
 * `test_min_return_time()` Tests `min_return_time()` function from `analyze_water` module for correct calculation results and correct output types, for cases when average turbidity is above or below normal threshold.
 
-Execute the command `pytest test_analyze_water.py` on your terminal to run the test.
+Execute the command `pytest` on your terminal to run the test.
 When you pass all the test cases, your output will look similar to this: <br>
 
 ```
