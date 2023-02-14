@@ -30,7 +30,7 @@ def min_return_time(T0: float) -> float:
         T0 (float): Current turbidity (average value of 5 most recent readings).
     
     Returns:
-        b (float): Minimum time to return below a safe threshold. Time is 0 if water is already below a safe treshold, otherwise it returns time needed, rounded to 2 decimal points.
+        b (float): Minimum time to return below a safe threshold. Time is 0 if water is already below a safe threshold. Otherwise, it returns time needed, rounded to 2 decimal points.
     """
     b = round( (log(TS/T0) / log(1-D)), 2)
     if b < 0:
