@@ -24,7 +24,7 @@ The scripts was created using <b>Python 3.8.10</b>, please ensure that you have 
 You can download Python <a href= "https://www.python.org/">here</a>.<br> 
 You need to have the following libraries installed prior to running the scripts:
 * `math`: Part of Python standard libraries
-* `pytest`: Execute `pip3 install --user pytest` on your terminal to install. The version used here is `pytest 7.2.1`.
+* `pytest`: Execute `pip3 install --user pytest` on your terminal to install. The version used is `pytest 7.2.1`.
 * `requests`: Execute `pip3 install --user requests` on your terminal to install
 
 ### Executing program
@@ -61,8 +61,22 @@ Minimum time required to return below a safe threshold = 7.09 hours
 The script utilize `pytest` to test if the two functions `turbidity()` `min_return_time()` from `analyze_water` module returns the expected values.
 
 This script contains two functions:
-* `test_turbidity()` tests `turbidity()` function from `analyze_water` to ensure that it outputs the right values.
-* `test_min_return_time()` tests `min_return_time()` function from `analyze_water` to ensure that it outputs the right values.
+* `test_turbidity()` Tests `turbidity()` function from `analyze_water` module for correct calculation result and correct output type.
+* `test_min_return_time()` Tests `min_return_time()` function from `analyze_water` module for correct calculation results and correct output types, for cases when average turbidity is above or below normal threshold.
+
+Execute the command `pytest test_analyze_water.py` on your terminal to run the test.
+When you pass all the test cases, your output will look similar to this: <br>
+
+```
+========================================================== test session starts ===========================================================
+platform linux -- Python 3.8.10, pytest-7.2.1, pluggy-1.0.0
+rootdir: /home/dwi67/COE332/homework03
+collected 2 items
+
+test_analyze_water.py ..                                                                                                           [100%]
+
+=========================================================== 2 passed in 0.07s ============================================================
+```
 
 ## Additional Resources
 
