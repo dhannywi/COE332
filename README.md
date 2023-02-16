@@ -22,8 +22,19 @@ COE332/
 │   └── README.md
 └── README.md
 ```
-let's see if this works
 
-# Author
+## 1. `homework01`
+
+
+## 2. `homework02`
+Meteorite Landing Analyzer that helps you generate five random meteorite landing sites and calculate the travel time between each site, as well as the total time the robot takes to complete its mission.
+
+## 3. `homework03`
+Water Turbidity Analyzer that reads in and analyze water quality data.
+
+## 4. `homework04`
+Flask app to query International Space Station (ISS) trajectory data.
+
+## Author
 Dhanny Indrakusuma<br>
 dhannywi@utexas.edu<br>
