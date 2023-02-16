@@ -43,17 +43,18 @@ Once you get the server running, there are four routes that you can request data
 
 |    | Route | What it should return |
 | -- | ----- | --------------------- |
-| 1. | /     | The entire data set   |
-| 2. | /epochs | A list of all Epochs in the data set |
-| 3. | /epochs/<epoch> | State vectors for a specific Epoch from the data set |
-| 4. | /epochs/<epoch>/speed | Instantaneous speed for a specific Epoch in the data set |
+| 1. | `/`   | The entire data set   |
+| 2. | `/epochs` | A list of all Epochs in the data set |
+| 3. | `/epochs/<epoch>` | State vectors for a specific Epoch from the data set |
+| 4. | `/epochs/<epoch>/speed` | Instantaneous speed for a specific Epoch in the data set |
 <br>
 
-#### 1.
+#### 1. Route `/`
 Since we need to keep the server running in order to make requests, open an additional shell and change your directory to the `homework04` folder. Now we will make a request to the Flask app by executing the command `curl localhost:5000` on your terminal. The output should be similar as below: <br>
 
 ```
 user/COE332/homework04$ curl localhost:5000
+{ .....
               {
                 "EPOCH": "2023-061T12:00:00.000Z",
                 "X": {
@@ -103,7 +104,7 @@ user/COE332/homework04$ curl localhost:5000
 }
 ```
 
-#### 2.
+#### 2. Route `/epochs`
 Next, we will query for a list of all Epochs in the data set. Execute the command `curl localhost:5000/epochs` on your terminal, and you should get output similar to this:<br>
 
 ```
@@ -121,7 +122,7 @@ user/COE332/homework04$ curl localhost:5000/epochs
 ]
 ```
 
-#### 3.
+#### 3. Route `/epochs/<epoch>`
 Since we now know the epochs in the dataset, we can query for the state vectors for a specific Epoch from the data set. To do this, Execute the command `curl localhost:5000/epochs/<epoch>` on your terminal, but replace `<epoch>` with a particular epoch you are interested in. For example: `curl localhost:5000/epochs/2023-061T08:09:00.000Z` <br>
 The resulting output will be similar to below: <br>
 
@@ -162,7 +163,7 @@ user/COE332/homework04$ curl localhost:5000/epochs/xyz
 The epoch you requested is not in the data.
 ```
 
-#### 4.
+#### 4. Route `/epochs/<epoch>/speed`
 Lastly, we can also query for the instantaneous speed for a specific Epoch in the data set by executing the command `curl localhost:5000/epochs/<epoch>/speed` on your terminal, but replace `<epoch>` with a particular epoch you are interested in. For example: `curl localhost:5000/epochs/2023-061T08:09:00.000Z/speed` <br>
 It will output the resulting speed calculation as below:<br>
 
