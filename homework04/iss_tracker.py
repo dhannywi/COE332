@@ -33,7 +33,7 @@ def get_epochs() -> list:
         epochs.append(i['EPOCH'])
     return epochs
 
-@app.route('/epochs/<epoch>', methods=['GET'])
+@app.route('/epochs/<str:epoch>', methods=['GET'])
 def get_state_vectors(epoch: str) -> dict:
     '''
     
@@ -48,9 +48,9 @@ def get_state_vectors(epoch: str) -> dict:
         elif i['EPOCH'] == epoch:
             return i
         else:
-            return 'The epoch you requested is not in the data\n'
+            return 'The epoch you requested is not in the data.\n'
 
-@app.route('/epochs/<epoch>/speed', methods=['GET'])
+@app.route('/epochs/<str:epoch>/speed', methods=['GET'])
 def calculate_speed(epoch: str) -> str:
     '''
     
@@ -67,9 +67,9 @@ def calculate_speed(epoch: str) -> str:
         z_dot = float(data['Z_DOT']["#text"])
 
         speed = sqrt( (x_dot**2) + (y_dot**2) + (z_dot**2) )
-        return f'The instantaneous speed for the epoch you requested is { round(speed, 4) } km/s\n'
+        return f'The instantaneous speed for the epoch you requested is { round(speed, 4) } km/s.\n'
     else:
-        return 'We are unable to calculate speed as the epoch you requested is not in the data\n'
+        return 'We are unable to calculate speed as the epoch you requested is not in the data.\n'
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
