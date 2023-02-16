@@ -53,7 +53,7 @@ Once you get the server running, there are four routes that you can request data
 Since we need to keep the server running in order to make requests, open an additional shell and change your directory to the `homework04` folder. Now we will make a request to the Flask app by executing the command `curl localhost:5000` on your terminal. The output should be similar as below: <br>
 
 ```
-user/COE332/homework04$ curl localhost:5000
+[username]:~/COE332/homework04$ curl localhost:5000
 { .....
               {
                 "EPOCH": "2023-061T12:00:00.000Z",
@@ -108,7 +108,7 @@ user/COE332/homework04$ curl localhost:5000
 Next, we will query for a list of all Epochs in the data set. Execute the command `curl localhost:5000/epochs` on your terminal, and you should get output similar to this:<br>
 
 ```
-user/COE332/homework04$ curl localhost:5000/epochs
+[username]:~/COE332/homework04$ curl localhost:5000/epochs
 [ ....,
   "2023-061T11:35:00.000Z",
   "2023-061T11:39:00.000Z",
@@ -127,7 +127,7 @@ Since we now know the epochs in the dataset, we can query for the state vectors 
 The resulting output will be similar to below: <br>
 
 ```
-user/COE332/homework04$ curl localhost:5000/epochs/2023-061T08:09:00.000Z
+[username]:~/COE332/homework04$ curl localhost:5000/epochs/2023-061T08:09:00.000Z
 {
   "EPOCH": "2023-061T08:09:00.000Z",
   "X": {
@@ -159,7 +159,7 @@ user/COE332/homework04$ curl localhost:5000/epochs/2023-061T08:09:00.000Z
 
 However, if you request an invalid epoch, for example `curl localhost:5000/epochs/xyz`, you will get:
 ```
-user/COE332/homework04$ curl localhost:5000/epochs/xyz
+[username]:~/COE332/homework04$ curl localhost:5000/epochs/xyz
 The epoch you requested is not in the data.
 ```
 
@@ -168,15 +168,19 @@ Lastly, we can also query for the instantaneous speed for a specific Epoch in th
 It will output the resulting speed calculation as below:<br>
 
 ```
-user/COE332/homework04$ curl localhost:5000/epochs/2023-061T08:09:00.000Z/speed
+[username]:~/COE332/homework04$ curl localhost:5000/epochs/2023-061T08:09:00.000Z/speed
 The instantaneous speed for the epoch you requested is 7.6633 km/s.
 ```
 
 However, if you request an invalid epoch, for example `curl localhost:5000/epochs/xyz/speed`, you will get:
 ```
-user/COE332/homework04$ curl localhost:5000/epochs/xyz/speed
+[username]:~/COE332/homework04$ curl localhost:5000/epochs/xyz/speed
 We are unable to calculate speed as the epoch you requested is not in the data.
 ```
+
+## Additional Resources
+
+* <a href="https://spotthestation.nasa.gov/trajectory_data.cfm">NASA Data Set</a>
 
 ## Authors
 
