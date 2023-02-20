@@ -22,8 +22,8 @@ You need to have the following libraries installed prior to running the scripts:
 ### Running the Flask App
 The `iss_tracker.py` script contains the code needed to run the ISS Tracker App. To run the flask app, Execute the command `flask --app iss_tracker --debug run` on your terminal. Your server is up and running when you see the message similar to this:
 
-```bash
-[username]:~/COE332/homework04$ flask --app iss_tracker --debug run
+```console
+username:~/COE332/homework04$ flask --app iss_tracker --debug run
  * Serving Flask app 'iss_tracker'
  * Debug mode: on                 
 WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server in
@@ -49,8 +49,8 @@ Once you get the server running, there are four routes that you can request data
 #### 1. Route `/`
 Since we need to keep the server running in order to make requests, open an additional shell and change your directory to the `homework04` folder. Now we will make a request to the Flask app by executing the command `curl localhost:5000` on your terminal. The output should be similar as below:
 
-```bash
-[username]:~/COE332/homework04$ curl localhost:5000
+```console
+username:~/COE332/homework04$ curl localhost:5000
 { .....
               {
                 "EPOCH": "2023-061T12:00:00.000Z",
@@ -104,8 +104,8 @@ Since we need to keep the server running in order to make requests, open an addi
 #### 2. Route `/epochs`
 Next, we will query for a list of all Epochs in the data set. Execute the command `curl localhost:5000/epochs` on your terminal, and you should get output similar to this:
 
-```bash
-[username]:~/COE332/homework04$ curl localhost:5000/epochs
+```console
+username:~/COE332/homework04$ curl localhost:5000/epochs
 [ ....,
   "2023-061T11:35:00.000Z",
   "2023-061T11:39:00.000Z",
@@ -125,8 +125,8 @@ For example: `curl localhost:5000/epochs/2023-061T08:09:00.000Z`
 
 The resulting output will be similar to below:
 
-```bash
-[username]:~/COE332/homework04$ curl localhost:5000/epochs/2023-061T08:09:00.000Z
+```console
+username:~/COE332/homework04$ curl localhost:5000/epochs/2023-061T08:09:00.000Z
 {
   "EPOCH": "2023-061T08:09:00.000Z",
   "X": {
@@ -157,8 +157,8 @@ The resulting output will be similar to below:
 ```
 
 However, if you request an invalid epoch, for example `curl localhost:5000/epochs/xyz`, you will get:
-```bash
-[username]:~/COE332/homework04$ curl localhost:5000/epochs/xyz
+```console
+username:~/COE332/homework04$ curl localhost:5000/epochs/xyz
 The epoch you requested is not in the data.
 ```
 
@@ -167,14 +167,14 @@ Lastly, we can also query for the instantaneous speed for a specific Epoch in th
 For example: `curl localhost:5000/epochs/2023-061T08:09:00.000Z/speed`
 
 It will output the resulting speed calculation as below:
-```bash
-[username]:~/COE332/homework04$ curl localhost:5000/epochs/2023-061T08:09:00.000Z/speed
+```console
+username:~/COE332/homework04$ curl localhost:5000/epochs/2023-061T08:09:00.000Z/speed
 The instantaneous speed for the epoch you requested is 7.6633 km/s.
 ```
 
 However, if you request an invalid epoch, for example `curl localhost:5000/epochs/xyz/speed`, you will get:
-```bash
-[username]:~/COE332/homework04$ curl localhost:5000/epochs/xyz/speed
+```console
+username:~/COE332/homework04$ curl localhost:5000/epochs/xyz/speed
 We are unable to calculate speed as the epoch you requested is not in the data.
 ```
 
