@@ -23,16 +23,16 @@ COE332/
 └── README.md
 ```
 
-## 1. `homework01`
+## 1. homework01
+A collection of Python scripts.
 
-
-## 2. `homework02`
+## 2. homework02
 Meteorite Landing Analyzer that helps you generate five random meteorite landing sites and calculate the travel time between each site, as well as the total time the robot takes to complete its mission.
 
-## 3. `homework03`
+## 3. homework03
 Water Turbidity Analyzer that reads in and analyze water quality data.
 
-## 4. `homework04`
+## 4. homework04
 Flask app to query International Space Station (ISS) trajectory data.
 
 ## Author
