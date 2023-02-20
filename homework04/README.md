@@ -1,21 +1,18 @@
 # ISS Tracker App
+**Scenario:** There is an abundance of interesting positional and velocity data for the International Space Station (ISS), thoughit can be a challenge to sift through the data manually to find what you are looking for.
+ISS Tracker is a Flask application for querying and returning interesting information from the ISS data set.
 
-Orbital Ephemeris Message (OEM) data containing ISS state vectors over a ~15 day period.
-
-
-
+You can find more information about the dataset used in the [ISS Trajectory Data](https://spotthestation.nasa.gov/trajectory_data.cfm) website. The Orbital Ephemeris Message (OEM) data used contains ISS state vectors over a ~15 day period.
 
 ## Getting Started
 
 Install this project by cloning the repository, making the scripts executable, and adding them to your PATH. For example: `git clone https://github.com/dhannywi/COE332.git`
 
-<br>
-
 After cloning `COE332`, change your directory to `homework04` sub-folder that contains the scripts and README for the ISS Tracker App. Execute the command `cd .\COE332\homework04\` on your terminal to change directory.
 
 ### Dependencies
-The scripts was created using <b>Python 3.8.10</b>, please ensure that you have the same version or higher when running the scripts. You can download Python <a href="https://www.python.org/">here</a>.
-<br>
+The scripts was created using **Python 3.8.10**, please ensure that you have the same version or higher when running the scripts. You can download Python [here](https://www.python.org/).
+
 You need to have the following libraries installed prior to running the scripts:
 * `math`: Part of Python standard libraries
 * `flask`: Execute `pip3 install --user flask` on your terminal to install
@@ -23,7 +20,7 @@ You need to have the following libraries installed prior to running the scripts:
 * `xmltodict`: Execute `pip3 install --user xmltodict` on your terminal to install
 
 ### Running the Flask App
-The `iss_tracker.py` script contains the code needed to run the ISS Tracker App. To run the flask app, Execute the command `flask --app iss_tracker --debug run` on your terminal. Your server is up and running when you see the message similar to this:<br>
+The `iss_tracker.py` script contains the code needed to run the ISS Tracker App. To run the flask app, Execute the command `flask --app iss_tracker --debug run` on your terminal. Your server is up and running when you see the message similar to this:
 
 ```console
 [username]:~/COE332/homework04$ flask --app iss_tracker --debug run
@@ -47,10 +44,10 @@ Once you get the server running, there are four routes that you can request data
 | 2. | `/epochs` | A list of all Epochs in the data set |
 | 3. | `/epochs/<epoch>` | State vectors for a specific Epoch from the data set |
 | 4. | `/epochs/<epoch>/speed` | Instantaneous speed for a specific Epoch in the data set |
-<br>
+
 
 #### 1. Route `/`
-Since we need to keep the server running in order to make requests, open an additional shell and change your directory to the `homework04` folder. Now we will make a request to the Flask app by executing the command `curl localhost:5000` on your terminal. The output should be similar as below: <br>
+Since we need to keep the server running in order to make requests, open an additional shell and change your directory to the `homework04` folder. Now we will make a request to the Flask app by executing the command `curl localhost:5000` on your terminal. The output should be similar as below:
 
 ```console
 [username]:~/COE332/homework04$ curl localhost:5000
@@ -105,7 +102,7 @@ Since we need to keep the server running in order to make requests, open an addi
 ```
 
 #### 2. Route `/epochs`
-Next, we will query for a list of all Epochs in the data set. Execute the command `curl localhost:5000/epochs` on your terminal, and you should get output similar to this:<br>
+Next, we will query for a list of all Epochs in the data set. Execute the command `curl localhost:5000/epochs` on your terminal, and you should get output similar to this:
 
 ```console
 [username]:~/COE332/homework04$ curl localhost:5000/epochs
@@ -123,8 +120,10 @@ Next, we will query for a list of all Epochs in the data set. Execute the comman
 ```
 
 #### 3. Route `/epochs/<epoch>`
-Since we now know the epochs in the dataset, we can query for the state vectors for a specific Epoch from the data set. To do this, Execute the command `curl localhost:5000/epochs/<epoch>` on your terminal, but replace `<epoch>` with a particular epoch you are interested in. For example: `curl localhost:5000/epochs/2023-061T08:09:00.000Z` <br>
-The resulting output will be similar to below: <br>
+Since we now know the epochs in the dataset, we can query for the state vectors for a specific Epoch from the data set. To do this, Execute the command `curl localhost:5000/epochs/<epoch>` on your terminal, but replace `<epoch>` with a particular epoch you are interested in.
+For example: `curl localhost:5000/epochs/2023-061T08:09:00.000Z`
+
+The resulting output will be similar to below:
 
 ```console
 [username]:~/COE332/homework04$ curl localhost:5000/epochs/2023-061T08:09:00.000Z
@@ -165,12 +164,9 @@ The epoch you requested is not in the data.
 
 #### 4. Route `/epochs/<epoch>/speed`
 Lastly, we can also query for the instantaneous speed for a specific Epoch in the data set by executing the command `curl localhost:5000/epochs/<epoch>/speed` on your terminal, but replace `<epoch>` with a particular epoch you are interested in.
-<br>
 For example: `curl localhost:5000/epochs/2023-061T08:09:00.000Z/speed`
-<br>
-It will output the resulting speed calculation as below:
-<br>
 
+It will output the resulting speed calculation as below:
 ```console
 [username]:~/COE332/homework04$ curl localhost:5000/epochs/2023-061T08:09:00.000Z/speed
 The instantaneous speed for the epoch you requested is 7.6633 km/s.
@@ -184,7 +180,7 @@ We are unable to calculate speed as the epoch you requested is not in the data.
 
 ## Additional Resources
 
-* <a href="https://spotthestation.nasa.gov/trajectory_data.cfm">NASA Data Set</a>
+* [NASA Data Set](https://spotthestation.nasa.gov/trajectory_data.cfm)
 
 ## Authors
 
