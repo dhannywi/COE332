@@ -10,10 +10,10 @@ app = Flask(__name__)
 @app.route('/', methods=['GET'])
 def get_oem_data() -> dict:
     '''
-	Function fetches XML data from a URL and returns XML data as nested dictionaries. 
+    Function fetches XML data from a URL and returns XML data as nested dictionaries. 
     Args:
         None
-	Returns:
+    Returns:
         result (dict): Nested dictionaries of the OEM data.
     '''
     response = requests.get(url='https://nasa-public-data.s3.amazonaws.com/iss-coords/current/ISS_OEM/ISS.OEM_J2K_EPH.xml')
@@ -22,8 +22,8 @@ def get_oem_data() -> dict:
 @app.route('/epochs', methods=['GET'])
 def get_epochs() -> list:
     '''
-	Function calls `get_oem_data()` to fetch data and iterates through the nested dictionary using a set of keys.
-	Returns a list of epochs present in the dataset.
+    Function calls `get_oem_data()` to fetch data and iterates through the nested dictionary using a set of keys.
+    Returns a list of epochs present in the dataset.
     Args:
         none
     Returns:
@@ -37,8 +37,8 @@ def get_epochs() -> list:
 @app.route('/epochs/<epoch>', methods=['GET'])
 def get_state_vectors(epoch: str) -> dict:
     '''
-	Given a string, this function calls `get_oem_data()` function to retrieve data, 
-	iterates through the nested dictionaries generated with a set of keys to retreive data for the requested epoch.  
+    Given a string, this function calls `get_oem_data()` function to retrieve data, 
+    iterates through the nested dictionaries generated with a set of keys to retreive data for the requested epoch.  
     Returns a dictionary containing information for a given epoch.
     Args:
         epoch (str): A specific Epoch in the data set, requested by user.
@@ -56,9 +56,9 @@ def get_state_vectors(epoch: str) -> dict:
 @app.route('/epochs/<epoch>/speed', methods=['GET'])
 def calculate_speed(epoch: str) -> str:
     '''
-	Given a string, this function calls the `get_state_vectors()` function to retrieve the state vector (dict) for a given epoch.
-	Iterates through the dictionary, pulling out values associated with a given key.
-	Returns instantaneous speed for a specific epoch in the data set.
+    Given a string, this function calls the `get_state_vectors()` function to retrieve the state vector (dict) for a given epoch.
+    Iterates through the dictionary, pulling out values associated with a given key.
+    Returns instantaneous speed for a specific epoch in the data set.
     Args:
         epoch (str): A specific Epoch in the data set, requested by user.
     Returns:
