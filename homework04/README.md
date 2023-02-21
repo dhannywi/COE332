@@ -20,7 +20,7 @@ You need to have the following libraries installed prior to running the scripts:
 * `xmltodict`: Execute `pip3 install --user xmltodict` on your terminal to install
 
 ### Running the Flask App
-The `iss_tracker.py` script contains the code needed to run the ISS Tracker App. To run the flask app, Execute the command `flask --app iss_tracker --debug run` on your terminal. Your server is up and running when you see the message similar to this:
+The `iss_tracker.py` script contains the code needed to run the ISS Tracker App. To run the flask app, Execute the command `flask --app iss_tracker --debug run` on your terminal. Your local server is up and running when you see the message similar to this:
 
 ```console
 username:~/COE332/homework04$ flask --app iss_tracker --debug run
@@ -120,7 +120,7 @@ username:~/COE332/homework04$ curl localhost:5000/epochs
 ```
 
 #### 3. Route `/epochs/<epoch>`
-Since we now know the epochs in the dataset, we can query for the state vectors for a specific Epoch from the data set. To do this, Execute the command `curl localhost:5000/epochs/<epoch>` on your terminal, but replace `<epoch>` with a particular epoch you are interested in.
+Since we now know the epochs in the data set, we can query for the state vectors for a specific Epoch. To do this, Execute the command `curl localhost:5000/epochs/<epoch>` on your terminal, but replace `<epoch>` with a particular epoch you are interested in.
 For example: `curl localhost:5000/epochs/2023-061T08:09:00.000Z`
 
 The resulting output will be similar to below:
@@ -185,4 +185,5 @@ We are unable to calculate speed as the epoch you requested is not in the data.
 ## Authors
 
 Dhanny W Indrakusuma
+
 dhannywi@utexas.edu
