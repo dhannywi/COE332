@@ -184,6 +184,5 @@ We are unable to calculate speed as the epoch you requested is not in the data.
 
 ## Authors
 
-Dhanny W Indrakusuma
-
+Dhanny W Indrakusuma<br>
 dhannywi@utexas.edu
