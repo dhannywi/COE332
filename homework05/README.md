@@ -1,5 +1,5 @@
 # ISS Tracker App
-**Scenario**: The previous API developed for the ISS positional and velocity data ((in homework 04))[https://github.com/dhannywi/COE332/tree/main/homework04] is a great start! But, we have made improvements to make the API more useful and  *portable*.
+**Scenario**: The previous API developed for the ISS positional and velocity data in [homework 04](https://github.com/dhannywi/COE332/tree/main/homework04) is a great start! But, we have made improvements to make the API more useful and  *portable*.
 
 **Scenario:** There is an abundance of interesting positional and velocity data for the International Space Station (ISS), though it is a challenge to sift through the data manually to find what you are looking for.
 ISS Tracker is a Flask application for querying and returning interesting information from the ISS data set.
@@ -47,7 +47,7 @@ Once you get the server running, there are four routes that you can request data
 | 3. | `/epochs?limit=int&offset=int` | GET | Return modified list of Epochs given query parameters |
 | 4. | `/epochs/<epoch>` | GET | State vectors for a specific Epoch from the data set |
 | 5. | `/epochs/<epoch>/speed` | GET | Instantaneous speed for a specific Epoch in the data set |
-| 6. | `\help` | GET | Return help text (as a string) that briefly describes each route |
+| 6. | `/help` | GET | Return help text (as a string) that briefly describes each route |
 | 7. | `/delete-data` | DELETE | Delete all data from the dictionary object |
 | 8. | `/post-data` | POST | Reload the dictionary object with data from the web |
 
@@ -125,7 +125,9 @@ username:~/COE332/homework04$ curl localhost:5000/epochs
 ]
 ```
 
-#### 3. Route `/epochs/<epoch>`
+#### 3. Route `/epochs?limit=int&offset=int`
+
+#### 4. Route `/epochs/<epoch>`
 Since we now know the epochs in the data set, we can query for the state vectors for a specific Epoch. To do this, Execute the command `curl localhost:5000/epochs/<epoch>` on your terminal, but replace `<epoch>` with a particular epoch you are interested in.
 For example: `curl localhost:5000/epochs/2023-061T08:09:00.000Z`
 
@@ -168,7 +170,7 @@ username:~/COE332/homework04$ curl localhost:5000/epochs/xyz
 The epoch you requested is not in the data.
 ```
 
-#### 4. Route `/epochs/<epoch>/speed`
+#### 5. Route `/epochs/<epoch>/speed`
 Lastly, we can also query for the instantaneous speed for a specific Epoch in the data set by executing the command `curl localhost:5000/epochs/<epoch>/speed` on your terminal, but replace `<epoch>` with a particular epoch you are interested in.
 For example: `curl localhost:5000/epochs/2023-061T08:09:00.000Z/speed`
 
@@ -183,6 +185,12 @@ However, if you request an invalid epoch, for example `curl localhost:5000/epoch
 username:~/COE332/homework04$ curl localhost:5000/epochs/xyz/speed
 We are unable to calculate speed as the epoch you requested is not in the data.
 ```
+
+#### 6. Route `/help`
+
+#### 7. Route `/delete-data`
+
+#### 8. Route `/post-data`
 
 ## Additional Resources
 
