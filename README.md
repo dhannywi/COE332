@@ -20,6 +20,10 @@ COE332/
 ├── homework04
 │   ├── iss_tracker.py
 │   └── README.md
+├── homework05
+│   ├── Dockerfile
+│   ├── iss_tracker.py
+│   └── README.md
 └── README.md
 ```
 
@@ -33,7 +37,10 @@ Meteorite Landing Analyzer that helps you generate five random meteorite landing
 Water Turbidity Analyzer that reads in and analyze water quality data.
 
 ## 4. homework04
-Flask app to query International Space Station (ISS) trajectory data.
+Flask application to query International Space Station (ISS) trajectory data.
+
+## 5. homework05
+Improved Flask application to query International Space Station (ISS) trajectory data. Contains `Dockerfile` to make the app more portable.
 
 ## Author
 Dhanny Indrakusuma<br>
