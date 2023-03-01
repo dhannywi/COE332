@@ -21,21 +21,21 @@ You have the option to build this project from source, or use the provided Docke
 We describe below the installation process using terminal commands, which are expected to run on a Ubuntu 20.04.5 machine with Python3. Installation may differ for other systems.
 
 
-### From Docker:
-> **Install**
-> 
-> To install the Docker container, first install Docker.
-> * `apt-get install docker` or follow installation instructions for [Docker Desktop](https://www.docker.com/get-started/) for your system. We are using Docker 20.10.12
-> 
-> Next, install the containers.
-> * `docker pull <dockerhub name>`
-> 
-> **Run**
-> 
-> description needed
+### _Option 1:_ from Docker:
+**Install**
+
+To install the Docker container, first install Docker.
+* `apt-get install docker` or follow installation instructions for [Docker Desktop](https://www.docker.com/get-started/) for your system. We are using Docker 20.10.12
+
+Next, install the containers.
+* `docker pull <dockerhub name>`
+
+**Run**
+
+description needed
 
 
-### From Source:
+### _Option 2:_ from Source:
 
 Since this is a Docker build, the requirements need not be installed on the server, as it will automatically be done on the Docker image. All commands, unless otherwise noted, are to be run in a terminal (in the home directory of the cloned repository).
 
