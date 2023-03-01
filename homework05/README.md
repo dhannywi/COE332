@@ -27,7 +27,7 @@ To install the Docker container, first install Docker.
 * `apt-get install docker` or follow installation instructions for [Docker Desktop](https://www.docker.com/get-started/) for your system. We are using Docker 20.10.12
 
 Next, install the containers.
-* docker pull <dockerhub name>
+* `docker pull <dockerhub name>`
 
 **Run**
 
@@ -42,12 +42,14 @@ Since this is a Docker build, the requirements need not be installed on the serv
 First, install Docker.
 * `apt-get install docker` or follow installation instructions for [Docker Desktop](https://www.docker.com/get-started/) for your system. We are using Docker 20.10.12
 
-Next, clone the  repository and change directory into the `homework05` folder.
-* https://github.com/dhannywi/COE332.git
-* cd .\COE332\homework05\
+Next, clone the  repository.
+* `git clone https://github.com/dhannywi/COE332.git`
+
+Then, change directory into the `homework05` folder.
+* `cd .\COE332\homework05\`
 
 Now, build the image.
-* make build
+* `make build`
 
 **Run**
 
@@ -211,7 +213,7 @@ Bad Request. Invalid limit parameter.
 
 ```console
 username:~/COE332/homework05$ curl "localhost:5000/epochs?limit=-20&offset=-10"
-Offset or Limit parameter is either too large or too small.
+Bad Request. `offset` or `limit` parameter is either too large or too small.
 ```
 
 #### 4. Route `/epochs/<epoch>`
