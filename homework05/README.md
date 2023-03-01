@@ -19,8 +19,9 @@ Specific Python3 packages are used:
 You have the option to build this project from source, or use the provided Docker container on DockerHub. A Docker installation is required, as we build and run a Docker image.
 
 We describe below the installation process using terminal commands, which are expected to run on a Ubuntu 20.04.5 machine with Python3. Installation may differ for other systems.
----
+
 ### From Docker:
+---
 **Install**
 
 To install the Docker container, first install Docker.
@@ -32,9 +33,10 @@ Next, install the containers.
 **Run**
 
 description needed
----
-### From Source:
 
+
+### From Source:
+---
 Since this is a Docker build, the requirements need not be installed on the server, as it will automatically be done on the Docker image. All commands, unless otherwise noted, are to be run in a terminal (in the home directory of the cloned repository).
 
 **Build**
