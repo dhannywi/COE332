@@ -22,7 +22,7 @@ We describe below the installation process using terminal commands, which are ex
 
 
 
-### _From Docker:_
+### __From Docker:__
 **Install**
 
 To install the Docker container, first install Docker.
@@ -37,7 +37,7 @@ description needed
 
 
 
-### _From Source:_
+### __From Source:__
 
 Since this is a Docker build, the requirements need not be installed on the server, as it will automatically be done on the Docker image. All commands, unless otherwise noted, are to be run in a terminal (in the home directory of the cloned repository).
 
