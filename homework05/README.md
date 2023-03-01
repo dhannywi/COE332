@@ -14,12 +14,12 @@ Specific Python3 packages are used:
 
 ### File
 
-## Installation & Usage
+## Installation
 
 You have the option to build this project from source, or use the provided Docker container on DockerHub. A Docker installation is required, as we build and run a Docker image.
 
 We describe below the installation process using terminal commands, which are expected to run on a Ubuntu 20.04.5 machine with Python3. Installation may differ for other systems.
-
+---
 ### From Docker:
 **Install**
 
@@ -32,7 +32,7 @@ Next, install the containers.
 **Run**
 
 description needed
-
+---
 ### From Source:
 
 Since this is a Docker build, the requirements need not be installed on the server, as it will automatically be done on the Docker image. All commands, unless otherwise noted, are to be run in a terminal (in the home directory of the cloned repository).
@@ -59,6 +59,8 @@ To run the code, please run the following. The terminal should return a link, wh
 If the image is not built, it is more appropriate to run the following, to avoid any errors.
 * `make rapid`
 
+## Usage
+Once you have the docker image running and dependencies installed, we can execute the Flask App and use the REST API.
 
 ### Running the Flask App
 The `iss_tracker.py` script contains the code needed to run the ISS Tracker App. To run the flask app, Execute the command `flask --app iss_tracker --debug run` on your terminal. Your local server is up and running when you see the message similar to this:
@@ -75,7 +77,7 @@ Press CTRL+C to quit
  * Debugger PIN: 634-065-858
 ```
 
-### Querying ISS data
+### Querying ISS data using the REST API
 Once you get the server running, there are eight routes for you to request data from:
 
 |    | Route | Method | What it should return |
@@ -169,7 +171,9 @@ username:~/COE332/homework05$ curl localhost:5000/epochs
 ```
 
 #### 3. Route `/epochs?limit=int&offset=int`
-As the output from the previous query can be lengthy, we have added an option to limit the amout of data presented to the user. Execute the command `curl "localhost:5000/epochs?limit=int&offset=int"` to query a modified list of Epochs based on a given query parameters. **Note:** you need to use double quotation ("") around the URL request for the query to work.
+As the output from the previous query can be lengthy, we have added an option to limit the amout of data presented to the user. Execute the command `curl "localhost:5000/epochs?limit=int&offset=int"` to query a modified list of Epochs based on a given query parameters.
+
+**Note:** you need to use double quotation ("") around the URL request for the query to work.
 
 The `offset` query parameter should offset the start point by an integer. For example, `offset=0` would begin printing at the first Epoch, `offset=1` would begin printing at the second Epoch, etc. The `limit` query parameter controls how many results are returned. For example `limit=10` would return 10 Epochs, `limit=100` would return 100 Epochs, etc.
 
