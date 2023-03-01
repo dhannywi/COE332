@@ -60,16 +60,11 @@ def get_epochs() -> list:
         offset = int(request.args.get('offset', 0))
     except ValueError:
         return 'Bad Request. Invalid offset parameter.\n', 400
-    '''
-    if limit == len(epochs) and offset == 0:
-        return epochs
-    else:
-        return epochs[offset:limit+offset]
-    '''
+    
     epochs = epochs[offset:]
     epochs = epochs[:limit]
     if len(epochs) == 0:
-        return 'Bad Input. Offset or Limit parameter is either too large or too small.\n', 400
+        return 'Bad Request. `offset` or `limit` parameter is either too large or too small.\n', 400
     else:
         return epochs
 
