@@ -16,6 +16,7 @@ def get_data() -> dict:
     Returns:
         data (dict): Nested dictionaries of the OEM data.
     '''
+    global data
     data.clear()
     response = requests.get(url='https://nasa-public-data.s3.amazonaws.com/iss-coords/current/ISS_OEM/ISS.OEM_J2K_EPH.xml')
     data = xmltodict.parse(response.text) # xmltodict.parse(response.content) works too
@@ -30,25 +31,47 @@ def get_oem_data() -> dict:
     Returns:
         data (dict): Nested dictionaries of the OEM data.
     '''
+    get_data()
     return data
 
 @app.route('/epochs', methods=['GET'])
 def get_epochs() -> list:
     '''
     Function fetches data stored in `data` global variable and iterates through the nested dictionary using a set of keys.
-    Returns a list of epochs present in the dataset.
+    Returns a list of Epochs from the dataset.
     Args:
         none
     Returns:
-        epochs (list): A list of all Epochs in the data set.
+        epochs (list): A list of all Epochs in the data set (or modified list if limit and/or offset is specified).
+                       Returns an error message (str) in cases of invalid input or no data.
     '''
+    if len(data) == 0:
+        return 'No data found. Please reload data.\n', 400
     epochs = []
     for i in data['ndm']['oem']['body']['segment']['data']['stateVector']:
         epochs.append(i['EPOCH'])
-    return epochs
 
-# add: /epochs?limit=int&offset=int
-# implement try/except
+    # implementing /epochs?limit=int&offset=int
+    try:
+        limit = int(request.args.get('limit', len(epochs)))
+    except ValueError:
+        return 'Bad Request. Invalid limit parameter.\n', 400
+    try:
+        offset = int(request.args.get('offset', 0))
+    except ValueError:
+        return 'Bad Request. Invalid offset parameter.\n', 400
+    '''
+    if limit == len(epochs) and offset == 0:
+        return epochs
+    else:
+        return epochs[offset:limit+offset]
+    '''
+    epochs = epochs[offset:]
+    epochs = epochs[:limit]
+    if len(epochs) == 0:
+        return 'Bad Input. Offset or Limit parameter is either too large or too small.\n', 400
+    else:
+        return epochs
 
 @app.route('/epochs/<epoch>', methods=['GET'])
 def get_state_vectors(epoch: str) -> dict:
@@ -59,20 +82,19 @@ def get_state_vectors(epoch: str) -> dict:
     Args:
         epoch (str): A specific Epoch in the data set, requested by user.
     Returns:
-        result (dict): State vectors for a specific Epoch from the data set. Returns a string if epoch requested does not exist.
+        result (dict): State vectors for a specific Epoch from the data set.
+                       Returns an error message (str) in cases of invalid input or no data.
     '''
-    try:
-        data['ndm']['oem']['body']['segment']['data']['stateVector']['EPOCH']
-    except ValueError:
-        return 'Invalid Request\n'
-
-    for i in data['ndm']['oem']['body']['segment']['data']['stateVector']:
-        if i['EPOCH'] != epoch:
-            continue
-        elif i['EPOCH'] == epoch:
-            return i
-        else:
-            return 'The epoch you requested is not in the data.\n', 400
+    if len(data) == 0:
+        return 'No data found. Please reload data.\n', 400
+    elif epoch not in get_epochs():
+        return 'The epoch you requested is not in the data.\n', 400
+    else:
+        for i in data['ndm']['oem']['body']['segment']['data']['stateVector']:
+            if i['EPOCH'] == epoch:
+                return i
+            else:
+                continue
 
 @app.route('/epochs/<epoch>/speed', methods=['GET'])
 def calculate_speed(epoch: str) -> str:
@@ -85,35 +107,22 @@ def calculate_speed(epoch: str) -> str:
     Returns:
         result (str): Instantaneous speed (float) for a specific Epoch in the data set, expressed as a string output.
                       Speed is rounded to the nearest 4 decimal points.
+                      Returns an error message (str) in cases of invalid input or no data.
     '''
-    # idea: maybe check for error. Eg: get_state_vectors() != 400
-    # or maybe this might work too? try: get_state_vectors()
-    # Exception will return the error string
-    '''
+    if len(data) == 0:
+        return 'No data found. Please reload data.\n', 400
+
+    state_vec = get_state_vectors(epoch)
+
     try:
-        get_state_vectors()
-    except #type:
-        return 'We are unable to calculate speed as the Epoch you requested is not in the data.\n', 400
-    '''
-    state_vector = get_state_vectors(epoch)
-    x_dot = float(state_vector['X_DOT']["#text"])
-    y_dot = float(state_vector['Y_DOT']["#text"])
-    z_dot = float(state_vector['Z_DOT']["#text"])
+        x_dot = float(state_vec['X_DOT']["#text"])
+        y_dot = float(state_vec['Y_DOT']["#text"])
+        z_dot = float(state_vec['Z_DOT']["#text"])
+    except TypeError:
+        return 'We are unable to calculate speed. Invalid Epoch.\n', 400
 
     speed = sqrt( (x_dot**2) + (y_dot**2) + (z_dot**2) )
-    return f'The instantaneous speed for Epoch: {epoch} is { round(speed, 4) } km/s.\n'
-'''
-    if type(get_state_vectors(epoch)) == dict:
-        data = get_state_vectors(epoch)
-        x_dot = float(data['X_DOT']["#text"])
-        y_dot = float(data['Y_DOT']["#text"])
-        z_dot = float(data['Z_DOT']["#text"])
-
-        speed = sqrt( (x_dot**2) + (y_dot**2) + (z_dot**2) )
-        return f'The instantaneous speed for the epoch you requested is { round(speed, 4) } km/s.\n'
-    else:
-        return 'We are unable to calculate speed as the epoch you requested is not in the data.\n'
-'''
+    return f'The instantaneous speed for the epoch you requested is { round(speed, 4) } km/s.\n'
 
 @app.route('/help', methods=['GET'])
 def help_info() -> str:
@@ -157,6 +166,8 @@ def delete_data() -> str:
         result (str): String confirming deletion of data.
     '''
     global data
+    if len(data) == 0:
+        return 'No data to delete.'
     data.clear()
     return 'All the data has been removed.\n'
 
