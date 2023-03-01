@@ -1,44 +1,80 @@
-# ISS Tracker App
-**Scenario**: The previous API developed for the ISS positional and velocity data in [homework 04](https://github.com/dhannywi/COE332/tree/main/homework04) is a great start! But, we have made improvements to make the API more useful and  *portable*.
+# ISS Tracker Ver 2.0
+ISS Tracker is a containarized Flask application for querying and returning interesting information from the ISS positional and velocity data. You can find version 1.0 of the ISS Tracker API in [homework 04](https://github.com/dhannywi/COE332/tree/main/homework04). However, we have made improvements in version 2.0 to make the API more useful and  *portable*. 
 
-**Scenario:** There is an abundance of interesting positional and velocity data for the International Space Station (ISS), though it is a challenge to sift through the data manually to find what you are looking for.
-ISS Tracker is a Flask application for querying and returning interesting information from the ISS data set.
+More information about the dataset used can be found in the [ISS Trajectory Data](https://spotthestation.nasa.gov/trajectory_data.cfm) website. The Orbital Ephemeris Message (OEM) data used contains ISS state vectors over a ~15 day period.
 
-You can find more information about the dataset used in the [ISS Trajectory Data](https://spotthestation.nasa.gov/trajectory_data.cfm) website. The Orbital Ephemeris Message (OEM) data used contains ISS state vectors over a ~15 day period.
+## Implementation
+The project uses **Python 3.8.10**, in particular **Flask 2.2.2**, and **Docker 20.10.12** for containerization. 
 
-## Getting Started
-
-Install this project by cloning the repository, making the scripts executable, and adding them to your PATH. For example: `git clone https://github.com/dhannywi/COE332.git`
-
-After cloning `COE332`, change your directory to `homework05` sub-folder that contains the scripts and README for the ISS Tracker App. Execute the command `cd .\COE332\homework05\` on your terminal to change directory.
-
-### Dependencies
-The scripts was created using **Python 3.8.10**, please ensure that you have the same version or higher when running the scripts. You can download Python [here](https://www.python.org/).
-
-You need to have the following libraries installed prior to running the scripts:
+Specific Python3 packages are used:
 * `math`: Part of Python standard libraries
 * `flask`: Execute `pip3 install --user flask` on your terminal to install
 * `requests`: Execute `pip3 install --user requests` on your terminal to install
 * `xmltodict`: Execute `pip3 install --user xmltodict` on your terminal to install
 
+### File
+
+## Installation & Usage
+
+You have the option to build this project from source, or use the provided Docker container on DockerHub. A Docker installation is required, as we build and run a Docker image.
+
+We describe below the installation process using terminal commands, which are expected to run on a Ubuntu 20.04.5 machine with Python3. Installation may differ for other systems.
+
+### From Docker:
+**Install**
+
+To install the Docker container, first install Docker.
+* `apt-get install docker` or follow installation instructions for [Docker Desktop](https://www.docker.com/get-started/) for your system. We are using Docker 20.10.12
+
+Next, install the containers.
+* docker pull <dockerhub name>
+
+**Run**
+
+description needed
+
+### From Source:
+
+Since this is a Docker build, the requirements need not be installed on the server, as it will automatically be done on the Docker image. All commands, unless otherwise noted, are to be run in a terminal (in the home directory of the cloned repository).
+
+**Build**
+
+First, install Docker.
+* `apt-get install docker` or follow installation instructions for [Docker Desktop](https://www.docker.com/get-started/) for your system. We are using Docker 20.10.12
+
+Next, clone the  repository and change directory into the `homework05` folder.
+* https://github.com/dhannywi/COE332.git
+* cd .\COE332\homework05\
+
+Now, build the image.
+* make build
+
+**Run**
+
+To run the code, please run the following. The terminal should return a link, which can be viewed via a browser or with the curl commands documented in the API reference section.
+* `make run`
+
+If the image is not built, it is more appropriate to run the following, to avoid any errors.
+* `make rapid`
+
+
 ### Running the Flask App
 The `iss_tracker.py` script contains the code needed to run the ISS Tracker App. To run the flask app, Execute the command `flask --app iss_tracker --debug run` on your terminal. Your local server is up and running when you see the message similar to this:
 
 ```console
-username:~/COE332/homework04$ flask --app iss_tracker --debug run
+username:~/COE332/homework05$ flask --app iss_tracker --debug run
  * Serving Flask app 'iss_tracker'
- * Debug mode: on                 
-WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server in
-stead.
+ * Debug mode: on
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
  * Running on http://127.0.0.1:5000
 Press CTRL+C to quit
  * Restarting with stat
  * Debugger is active!
- * Debugger PIN: 602-054-580
+ * Debugger PIN: 634-065-858
 ```
 
 ### Querying ISS data
-Once you get the server running, there are four routes that you can request data from:
+Once you get the server running, there are eight routes for you to request data from:
 
 |    | Route | Method | What it should return |
 | -- | ----- | ------ | --------------------- |
@@ -51,12 +87,17 @@ Once you get the server running, there are four routes that you can request data
 | 7. | `/delete-data` | DELETE | Delete all data from the dictionary object |
 | 8. | `/post-data` | POST | Reload the dictionary object with data from the web |
 
+Keep in mind that in order to query specific data, you will need to query `/` or `/post-data` routes first in order to load (or re-load) dataset into the App. Otherwise, when data has not been loaded/ has been deleted, you will receive an error message. For example:
+```console
+username:~/COE332/homework05$ curl localhost:5000/epochs/2023-061T08:09:00.000Z/speed
+No data found. Please reload data.
+```
 
 #### 1. Route `/`
-Since we need to keep the server running in order to make requests, open an additional shell and change your directory to the `homework04` folder. Now we will make a request to the Flask app by executing the command `curl localhost:5000` on your terminal. The output should be similar as below:
+Since we need to keep the server running in order to make requests, open an additional shell and change your directory to the `homework05` folder. Now we will make a request to the Flask app by executing the command `curl localhost:5000` on your terminal. The output should be similar as below:
 
 ```console
-username:~/COE332/homework04$ curl localhost:5000
+username:~/COE332/homework05$ curl localhost:5000
 { .....
               {
                 "EPOCH": "2023-061T12:00:00.000Z",
@@ -111,7 +152,7 @@ username:~/COE332/homework04$ curl localhost:5000
 Next, we will query for a list of all Epochs in the data set. Execute the command `curl localhost:5000/epochs` on your terminal, and you should get output similar to this:
 
 ```console
-username:~/COE332/homework04$ curl localhost:5000/epochs
+username:~/COE332/homework05$ curl localhost:5000/epochs
 [ ....,
   "2023-061T11:35:00.000Z",
   "2023-061T11:39:00.000Z",
@@ -126,6 +167,52 @@ username:~/COE332/homework04$ curl localhost:5000/epochs
 ```
 
 #### 3. Route `/epochs?limit=int&offset=int`
+As the output from the previous query can be lengthy, we have added an option to limit the amout of data presented to the user. Execute the command `curl "localhost:5000/epochs?limit=int&offset=int"` to query a modified list of Epochs based on a given query parameters. **Note:** you need to use double quotation ("") around the URL request for the query to work.
+
+The `offset` query parameter should offset the start point by an integer. For example, `offset=0` would begin printing at the first Epoch, `offset=1` would begin printing at the second Epoch, etc. The `limit` query parameter controls how many results are returned. For example `limit=10` would return 10 Epochs, `limit=100` would return 100 Epochs, etc.
+
+As an example, when you execute the command `curl "localhost:5000/epochs?limit=20&offset=50"`, the program would return Epochs 51 through 70 (20 total):
+```console
+username:~/COE332/homework05$ curl "localhost:5000/epochs?limit=20&offset=50"
+[
+  "2023-058T15:20:00.000Z",
+  "2023-058T15:24:00.000Z",
+  "2023-058T15:28:00.000Z",
+  "2023-058T15:32:00.000Z",
+  "2023-058T15:36:00.000Z",
+  "2023-058T15:40:00.000Z",
+  "2023-058T15:44:00.000Z",
+  "2023-058T15:48:00.000Z",
+  "2023-058T15:52:00.000Z",
+  "2023-058T15:56:00.000Z",
+  "2023-058T16:00:00.000Z",
+  "2023-058T16:04:00.000Z",
+  "2023-058T16:08:00.000Z",
+  "2023-058T16:12:00.000Z",
+  "2023-058T16:16:00.000Z",
+  "2023-058T16:20:00.000Z",
+  "2023-058T16:24:00.000Z",
+  "2023-058T16:28:00.000Z",
+  "2023-058T16:32:00.000Z",
+  "2023-058T16:36:00.000Z"
+]
+```
+
+However, if your input is invalid, you will get an error message. Below are some examples of error messages you can expect:
+```console
+username:~/COE332/homework05$ curl "localhost:5000/epochs?limit=20&offset=y"
+Bad Request. Invalid offset parameter.
+```
+
+```console
+username::~/COE332/homework05$ curl 'localhost:5000/epochs?limit=a&offset=10'
+Bad Request. Invalid limit parameter.
+```
+
+```console
+username:~/COE332/homework05$ curl "localhost:5000/epochs?limit=-20&offset=-10"
+Offset or Limit parameter is either too large or too small.
+```
 
 #### 4. Route `/epochs/<epoch>`
 Since we now know the epochs in the data set, we can query for the state vectors for a specific Epoch. To do this, Execute the command `curl localhost:5000/epochs/<epoch>` on your terminal, but replace `<epoch>` with a particular epoch you are interested in.
@@ -134,7 +221,7 @@ For example: `curl localhost:5000/epochs/2023-061T08:09:00.000Z`
 The resulting output will be similar to below:
 
 ```console
-username:~/COE332/homework04$ curl localhost:5000/epochs/2023-061T08:09:00.000Z
+username:~/COE332/homework05$ curl localhost:5000/epochs/2023-061T08:09:00.000Z
 {
   "EPOCH": "2023-061T08:09:00.000Z",
   "X": {
@@ -152,7 +239,7 @@ username:~/COE332/homework04$ curl localhost:5000/epochs/2023-061T08:09:00.000Z
   "Y_DOT": {
     "#text": "-1.8472846937741301",
     "@units": "km/s"
-  },
+  },..
   "Z": {
     "#text": "-1545.43747234906",
     "@units": "km"
@@ -166,31 +253,113 @@ username:~/COE332/homework04$ curl localhost:5000/epochs/2023-061T08:09:00.000Z
 
 However, if you request an invalid epoch, for example `curl localhost:5000/epochs/xyz`, you will get:
 ```console
-username:~/COE332/homework04$ curl localhost:5000/epochs/xyz
+username:~/COE332/homework05$ curl localhost:5000/epochs/xyz
 The epoch you requested is not in the data.
 ```
 
 #### 5. Route `/epochs/<epoch>/speed`
 Lastly, we can also query for the instantaneous speed for a specific Epoch in the data set by executing the command `curl localhost:5000/epochs/<epoch>/speed` on your terminal, but replace `<epoch>` with a particular epoch you are interested in.
 For example: `curl localhost:5000/epochs/2023-061T08:09:00.000Z/speed`
-
 It will output the resulting speed calculation as below:
 ```console
-username:~/COE332/homework04$ curl localhost:5000/epochs/2023-061T08:09:00.000Z/speed
+username:~/COE332/homework05$ curl localhost:5000/epochs/2023-061T08:09:00.000Z/speed
 The instantaneous speed for the epoch you requested is 7.6633 km/s.
 ```
 
 However, if you request an invalid epoch, for example `curl localhost:5000/epochs/xyz/speed`, you will get:
 ```console
-username:~/COE332/homework04$ curl localhost:5000/epochs/xyz/speed
-We are unable to calculate speed as the epoch you requested is not in the data.
+username:~/COE332/homework05$ curl localhost:5000/epochs/xyz/speed
+We are unable to calculate speed. Invalid Epoch.
 ```
 
 #### 6. Route `/help`
 
+Execute the command `curl localhost:5000/help` to get a brief description each route. The output will be similar to below:
+```console
+username:~/COE332/homework04$ curl localhost:5000/help
+    Usage: ISS Tracker App
+
+    A Flask application for querying and returning interesting information from the ISS data set.
+
+    Route                           Method  What it should do
+    /                               GET     Return entire data set
+    /epochs                         GET     Return list of all Epochs in the data set
+    /epochs?limit=int&offset=int    GET     Return modified list of Epochs given query parameters
+    /epochs/<epoch>                 GET     Return state vectors for a specific Epoch from the data set
+    /epochs/<epoch>/speed           GET     Return instantaneous speed for a specific Epoch in the data set
+    /help                           GET     Return help text that briefly describes each route
+    /delete-data                    DELETE  Delete all data from the dictionary object
+    /post-data                      POST    Reload the dictionary object with data from the web
+    
+    You can find more information about the dataset used in the ISS Trajectory Data website:
+    https://spotthestation.nasa.gov/trajectory_data.cfm
+    
+    Please refer to ISS Tracker App's repository for more information:
+    https://github.com/dhannywi/COE332/tree/main/homework05
+```
+
 #### 7. Route `/delete-data`
 
+To delete data, execute the command `curl localhost:5000/delete-data -X DELETE`. Data deletion is confirmed when you receive the output:
+```console
+username:~/COE332/homework04$ curl localhost:5000/delete-data -X DELETE
+All data has been removed.
+```
+
 #### 8. Route `/post-data`
+
+To populate or update the ISS data, run the command `curl localhost:5000/post-data -X POST`. A successful session results in a similar output:
+```console
+username:~/COE332/homework04$ curl localhost:5000/post-data -X POST
+{.....
+              {
+                "EPOCH": "2023-073T12:00:00.000Z",
+                "X": {
+                  "#text": "-1245.0878940228999",
+                  "@units": "km"
+                },
+                "X_DOT": {
+                  "#text": "4.7140040881658498",
+                  "@units": "km/s"
+                },
+                "Y": {
+                  "#text": "-6674.6926971496696",
+                  "@units": "km"
+                },
+                "Y_DOT": {
+                  "#text": "-0.60161940965214999",
+                  "@units": "km/s"
+                },
+                "Z": {
+                  "#text": "-319.31248886637098",
+                  "@units": "km"
+                },
+                "Z_DOT": {
+                  "#text": "-6.0082507229750703",
+                  "@units": "km/s"
+                }
+              }
+            ]
+          },
+          "metadata": {
+            "CENTER_NAME": "EARTH",
+            "OBJECT_ID": "1998-067-A",
+            "OBJECT_NAME": "ISS",
+            "REF_FRAME": "EME2000",
+            "START_TIME": "2023-058T12:00:00.000Z",
+            "STOP_TIME": "2023-073T12:00:00.000Z",
+            "TIME_SYSTEM": "UTC"
+          }
+        }
+      },
+      "header": {
+        "CREATION_DATE": "2023-058T21:02:19.972Z",
+        "ORIGINATOR": "JSC"
+      }
+    }
+  }
+}
+```
 
 ## Additional Resources
 
