@@ -13,7 +13,7 @@ Specific Python3 libraries are used:
 * `xmltodict`
 
 ### Files
-* `DockerFile` -- 
+* `Dockerfile` -- commands for building a new image
 * `iss_tracker.py` -- python scripts for the Flask application
 * `README.md` -- project documentation
 
@@ -23,62 +23,86 @@ You have the option to build this project from source, or use the provided Docke
 
 We describe below the installation process using terminal commands, which are expected to run on a Ubuntu 20.04.5 machine with Python3. Installation may differ for other systems.
 
+<br>
 
 ### From Docker (option 1)
 **Install**
 
 * To install the Docker container, first install Docker: `apt-get install docker` or follow installation instructions for [Docker Desktop](https://www.docker.com/get-started/) for your system. We are using Docker 20.10.12
 
-* Next, install the containers: `docker pull <dockerhub name>`
+* Next, pull the image from the docker hub and install the containers: `docker pull dhannywi/iss_tracker:2.0`
 
 **Run**
 
-description needed
-
-<br>
-
-### Source build (option 2)
-
-Since this is a Docker build, the requirements need not be installed on the server, as it will automatically be done on the Docker image. All commands, unless otherwise noted, are to be run in a terminal (in the home directory of the cloned repository).
-
-**Build**
-
-* First, install Docker: `apt-get install docker` or follow installation instructions for [Docker Desktop](https://www.docker.com/get-started/) for your system. We are using Docker 20.10.12
-
-* Next, clone the  repository: `git clone https://github.com/dhannywi/COE332.git`
-
-* Then, change directory into the `homework05` folder: `cd .\COE332\homework05\`
-
-* Now, build the image: `make build`
-
-**Run**
-
-* To run the code, please run the following. The terminal should return a link, which can be viewed via a browser or with the curl commands documented in the API reference section: `make run`
-
-* If the image is not built, it is more appropriate to run the following, to avoid any errors: `make rapid`
-
-## Usage
-Once you have the docker image running with dependencies installed, we can execute the Flask App and use the REST API.
-
-### Running the Flask App
-The `iss_tracker.py` script contains the code needed to run the ISS Tracker App. To run the flask app, Execute the command `flask --app iss_tracker --debug run` on your terminal. Your local server is up and running when you see the message similar to this:
-
+* To run the code, please execute: `docker run -it --rm -p 5000:5000 dhannywi/iss_tracker:2.0` 
+The terminal should return a link, which can be viewed via a browser or with the curl commands documented in the API reference section. Your local server is up and running when you see this message:
 ```console
-username:~/COE332/homework05$ flask --app iss_tracker --debug run
+username:~/COE332/homework05$ docker run -it --rm -p 5000:5000 dhannywi/iss_tracker:2.0
  * Serving Flask app 'iss_tracker'
  * Debug mode: on
 WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on all addresses (0.0.0.0)
  * Running on http://127.0.0.1:5000
+ * Running on http://129.114.39.216:5000
 Press CTRL+C to quit
  * Restarting with stat
  * Debugger is active!
  * Debugger PIN: 634-065-858
 ```
 
-### Querying ISS data using the REST API
-Once you get the server running, there are eight routes for you to request data from:
+<br>
 
-|    | Route | Method | What it should return |
+### Source build (option 2)
+
+Since this is a Docker build, the requirements need not be installed, as it will automatically be done on the Docker image. All commands, unless otherwise noted, are to be run in a terminal (in the home directory of the cloned repository).
+
+**Build**
+
+* First, install Docker: `apt-get install docker` or follow installation instructions for [Docker Desktop](https://www.docker.com/get-started/) for your system. We are using Docker 20.10.12
+* Next, clone the  repository: `git clone https://github.com/dhannywi/COE332.git`
+* Then, change directory into the `homework05` folder: `cd .\COE332\homework05\`
+* Now, build the image: `docker build -t dhannywi/iss_tracker:2.0 .`
+This output shows that your build is successful:
+```console
+username:~/COE332/homework05$ docker build -t dhannywi/iss_tracker:2.0 .
+Sending build context to Docker daemon  61.44kB
+...
+...
+...
+Successfully built fc2baf131ff1
+Successfully tagged dhannywi/iss_tracker:2.0
+```
+* To check a list of docker images currently running in your computer: `docker images`
+The image you just built would show up in the list of images:
+```console
+username:~/COE332/homework05$ docker images
+REPOSITORY             TAG       IMAGE ID       CREATED         SIZE
+username/iss_tracker   2.0       fc2baf131ff1   4 minutes ago   897MB
+```
+
+**Run**
+
+* To run the code, please execute: `docker run -it --rm -p 5000:5000 dhannywi/iss_tracker:2.0` 
+The terminal should return a link, which can be viewed via a browser or with the curl commands documented in the API reference section. Your local server is up and running when you see this message:
+```console
+username:~/COE332/homework05$ docker run -it --rm -p 5000:5000 dhannywi/iss_tracker:2.0
+ * Serving Flask app 'iss_tracker'
+ * Debug mode: on
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://129.114.39.216:5000
+Press CTRL+C to quit
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 634-065-858
+```
+
+## Usage
+Once you have the docker image running with dependencies installed and the local server running, we can start querying using the REST API in the Flask app.
+
+There are eight routes for you to request data from:
+|    | Route | Method | What it returns |
 | -- | ----- | ------ | --------------------- |
 | 1. | `/`   | GET | The entire data set   |
 | 2. | `/epochs` | GET | A list of all Epochs in the data set |
@@ -89,14 +113,15 @@ Once you get the server running, there are eight routes for you to request data 
 | 7. | `/delete-data` | DELETE | Delete all data from the dictionary object |
 | 8. | `/post-data` | POST | Reload the dictionary object with data from the web |
 
-Keep in mind that in order to query specific data, you will need to query `/` or `/post-data` routes first in order to load (or re-load) dataset into the App. Otherwise, when data has not been loaded/ has been deleted, you will receive an error message. For example:
+### Querying ISS data using the REST API
+Since we need to keep the server running in order to make requests, open an additional shell and change your directory to the same directory your server is running. Keep in mind that in order to query specific data, you will need to query `/` or `/post-data` routes first in order to load (or re-load) dataset into the App. Otherwise, when data has not been loaded/ has been deleted, you will receive an error message. For example:
 ```console
 username:~/COE332/homework05$ curl localhost:5000/epochs/2023-061T08:09:00.000Z/speed
 No data found. Please reload data.
 ```
 
 #### 1. Route `/`
-Since we need to keep the server running in order to make requests, open an additional shell and change your directory to the `homework05` folder. Now we will make a request to the Flask app by executing the command `curl localhost:5000` on your terminal. The output should be similar as below:
+Now we will make a request to the Flask app by executing the command `curl localhost:5000` on your terminal. The output should be similar as below:
 
 ```console
 username:~/COE332/homework05$ curl localhost:5000/
@@ -285,7 +310,7 @@ username:~/COE332/homework04$ curl localhost:5000/help
 
     A Flask application for querying and returning interesting information from the ISS data set.
 
-    Route                           Method  What it should do
+    Route                           Method  What it returns
     /                               GET     Return entire data set
     /epochs                         GET     Return list of all Epochs in the data set
     /epochs?limit=int&offset=int    GET     Return modified list of Epochs given query parameters
@@ -303,6 +328,12 @@ To delete data, execute the command `curl localhost:5000/delete-data -X DELETE`.
 ```console
 username:~/COE332/homework04$ curl localhost:5000/delete-data -X DELETE
 All data has been removed.
+```
+
+However, if you run the curl command without loading the data first, you will get an erroe message:
+```console
+username:~/COE332/homework05$ curl localhost:5000/delete-data -X DELETE
+No data to delete.
 ```
 
 #### 8. Route `/post-data`
