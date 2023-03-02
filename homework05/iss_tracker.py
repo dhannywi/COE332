@@ -133,7 +133,7 @@ def help_info() -> str:
 
     A Flask application for querying and returning interesting information from the ISS data set.
 
-    Route                           Method  What it should do
+    Route                           Method  What it returns
     /                               GET     Return entire data set
     /epochs                         GET     Return list of all Epochs in the data set
     /epochs?limit=int&offset=int    GET     Return modified list of Epochs given query parameters
