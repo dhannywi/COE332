@@ -99,7 +99,7 @@ No data found. Please reload data.
 Since we need to keep the server running in order to make requests, open an additional shell and change your directory to the `homework05` folder. Now we will make a request to the Flask app by executing the command `curl localhost:5000` on your terminal. The output should be similar as below:
 
 ```console
-username:~/COE332/homework05$ curl localhost:5000
+username:~/COE332/homework05$ curl localhost:5000/
 { .....
               {
                 "EPOCH": "2023-061T12:00:00.000Z",
@@ -281,7 +281,7 @@ We are unable to calculate speed. Invalid Epoch.
 Execute the command `curl localhost:5000/help` to get a brief description each route. The output will be similar to below:
 ```console
 username:~/COE332/homework04$ curl localhost:5000/help
-    Usage: ISS Tracker App
+    Usage: curl localhost:5000[ROUTE]
 
     A Flask application for querying and returning interesting information from the ISS data set.
 
