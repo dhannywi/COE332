@@ -32,9 +32,17 @@ We describe below the installation process using terminal commands, which are ex
 
 * Next, pull the image from the docker hub and install the containers: `docker pull dhannywi/iss_tracker:2.0`
 
+* Check the docker images currently running in your computer by executing: `docker images`
+The image you just installed would show up in the list of images:
+```console
+username:~/COE332/homework05$ docker images
+REPOSITORY             TAG       IMAGE ID       CREATED         SIZE
+username/iss_tracker   2.0       fc2baf131ff1   4 minutes ago   897MB
+```
+
 **Run**
 
-* To run the code, please execute: `docker run -it --rm -p 5000:5000 dhannywi/iss_tracker:2.0` 
+* To run the code, execute: `docker run -it --rm -p 5000:5000 dhannywi/iss_tracker:2.0` 
 The terminal should return a link, which can be viewed via a browser or with the curl commands documented in the API reference section. Your local server is up and running when you see this message:
 ```console
 username:~/COE332/homework05$ docker run -it --rm -p 5000:5000 dhannywi/iss_tracker:2.0
@@ -54,7 +62,7 @@ Press CTRL+C to quit
 
 ### Source build (option 2)
 
-Since this is a Docker build, the requirements need not be installed, as it will automatically be done on the Docker image. All commands, unless otherwise noted, are to be run in a terminal (in the home directory of the cloned repository).
+Since this is a Docker build, the requirements need not be installed, as it will automatically be done on the Docker image. All commands, unless otherwise noted, are to be run in a terminal (in the `homework05` directory of the cloned repository).
 
 **Build**
 
@@ -72,7 +80,7 @@ Sending build context to Docker daemon  61.44kB
 Successfully built fc2baf131ff1
 Successfully tagged dhannywi/iss_tracker:2.0
 ```
-* To check a list of docker images currently running in your computer: `docker images`
+* Check the docker images currently running in your computer by executing: `docker images`
 The image you just built would show up in the list of images:
 ```console
 username:~/COE332/homework05$ docker images
