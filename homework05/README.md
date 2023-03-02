@@ -7,12 +7,15 @@ More information about the dataset used can be found in the [ISS Trajectory Data
 The project uses **Python 3.8.10**, in particular **Flask 2.2.2**, and **Docker 20.10.12** for containerization. 
 
 Specific Python3 libraries are used:
-* `math`: Part of Python standard libraries
-* `flask`: Execute `pip3 install --user flask` on your terminal to install
-* `requests`: Execute `pip3 install --user requests` on your terminal to install
-* `xmltodict`: Execute `pip3 install --user xmltodict` on your terminal to install
+* `math`
+* `flask`
+* `requests`
+* `xmltodict`
 
-### File
+### Files
+* `DockerFile` -- 
+* `iss_tracker.py` -- python scripts for the Flask application
+* `README.md` -- project documentation
 
 ## Installation
 
@@ -36,8 +39,9 @@ description needed
 
 <br>
 
-<details>
-### <summary>Source build (option 2)</summary>
+### <details>
+
+<summary>Source build (option 2)</summary>
 
 Since this is a Docker build, the requirements need not be installed on the server, as it will automatically be done on the Docker image. All commands, unless otherwise noted, are to be run in a terminal (in the home directory of the cloned repository).
 
