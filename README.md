@@ -40,7 +40,7 @@ Water Turbidity Analyzer that reads in and analyze water quality data.
 Flask application to query International Space Station (ISS) trajectory data.
 
 ## 5. homework05
-Improved Flask application to query International Space Station (ISS) trajectory data. Contains `Dockerfile` to make the app more portable.
+Containerized Flask application to query International Space Station (ISS) trajectory data. Added additional REST API routes and `Dockerfile` to make the app more useful and portable.
 
 ## Author
 Dhanny Indrakusuma<br>
