@@ -129,7 +129,7 @@ def help_info() -> str:
         help_str (str):  Help text that briefly describes each route
     '''
     help_str = '''
-    Usage: ISS Tracker App
+    Usage: curl localhost:5000[ROUTE]
 
     A Flask application for querying and returning interesting information from the ISS data set.
 
@@ -142,13 +142,7 @@ def help_info() -> str:
     /help                           GET     Return help text that briefly describes each route
     /delete-data                    DELETE  Delete all data from the dictionary object
     /post-data                      POST    Reload the dictionary object with data from the web
-
-    You can find more information about the dataset used in the ISS Trajectory Data website:
-    https://spotthestation.nasa.gov/trajectory_data.cfm
-
-    Please refer to ISS Tracker App's repository for more information:
-    https://github.com/dhannywi/COE332/tree/main/homework05\n'''
-    
+    \n'''
     return help_str
 
 @app.route('/delete-data', methods=['DELETE'])
@@ -162,7 +156,7 @@ def delete_data() -> str:
     '''
     global data
     if len(data) == 0:
-        return 'No data to delete.'
+        return 'No data to delete.\n', 400
     data.clear()
     return 'All the data has been removed.\n'
 
