@@ -1,12 +1,12 @@
-# ISS Tracker Ver 2.0
-ISS Tracker is a containarized Flask application for querying and returning interesting information from the ISS positional and velocity data. You can find version 1.0 of the ISS Tracker API in [homework 04](https://github.com/dhannywi/COE332/tree/main/homework04). However, we have made improvements in version 2.0 to make the API more useful and  *portable*. 
+# ISS Tracker Version 2.0
+ISS Tracker is a containarized Flask application for querying and returning interesting information from the ISS positional and velocity data. You can find version 1.0 of the ISS Tracker App in [homework 04](https://github.com/dhannywi/COE332/tree/main/homework04). We have made improvements in version 2.0 to make the REST API more useful and  *portable*. 
 
 More information about the dataset used can be found in the [ISS Trajectory Data](https://spotthestation.nasa.gov/trajectory_data.cfm) website. The Orbital Ephemeris Message (OEM) data used contains ISS state vectors over a ~15 day period.
 
 ## Implementation
 The project uses **Python 3.8.10**, in particular **Flask 2.2.2**, and **Docker 20.10.12** for containerization. 
 
-Specific Python3 packages are used:
+Specific Python3 libraries are used:
 * `math`: Part of Python standard libraries
 * `flask`: Execute `pip3 install --user flask` on your terminal to install
 * `requests`: Execute `pip3 install --user requests` on your terminal to install
@@ -36,7 +36,8 @@ description needed
 
 <br>
 
-### Source build (option 2)
+<details>
+### <summary>Source build (option 2)</summary>
 
 Since this is a Docker build, the requirements need not be installed on the server, as it will automatically be done on the Docker image. All commands, unless otherwise noted, are to be run in a terminal (in the home directory of the cloned repository).
 
@@ -61,6 +62,7 @@ To run the code, please run the following. The terminal should return a link, wh
 
 If the image is not built, it is more appropriate to run the following, to avoid any errors.
 * `make rapid`
+</details>
 
 ## Usage
 Once you have the docker image running and dependencies installed, we can execute the Flask App and use the REST API.
