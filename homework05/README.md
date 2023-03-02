@@ -27,11 +27,9 @@ We describe below the installation process using terminal commands, which are ex
 ### From Docker (option 1)
 **Install**
 
-To install the Docker container, first install Docker.
-* `apt-get install docker` or follow installation instructions for [Docker Desktop](https://www.docker.com/get-started/) for your system. We are using Docker 20.10.12
+* To install the Docker container, first install Docker: `apt-get install docker` or follow installation instructions for [Docker Desktop](https://www.docker.com/get-started/) for your system. We are using Docker 20.10.12
 
-Next, install the containers.
-* `docker pull <dockerhub name>`
+* Next, install the containers: `docker pull <dockerhub name>`
 
 **Run**
 
@@ -39,37 +37,28 @@ description needed
 
 <br>
 
-### <details>
-
-<summary>Source build (option 2)</summary>
+### Source build (option 2)
 
 Since this is a Docker build, the requirements need not be installed on the server, as it will automatically be done on the Docker image. All commands, unless otherwise noted, are to be run in a terminal (in the home directory of the cloned repository).
 
 **Build**
 
-First, install Docker.
-* `apt-get install docker` or follow installation instructions for [Docker Desktop](https://www.docker.com/get-started/) for your system. We are using Docker 20.10.12
+* First, install Docker: `apt-get install docker` or follow installation instructions for [Docker Desktop](https://www.docker.com/get-started/) for your system. We are using Docker 20.10.12
 
-Next, clone the  repository.
-* `git clone https://github.com/dhannywi/COE332.git`
+* Next, clone the  repository: `git clone https://github.com/dhannywi/COE332.git`
 
-Then, change directory into the `homework05` folder.
-* `cd .\COE332\homework05\`
+* Then, change directory into the `homework05` folder: `cd .\COE332\homework05\`
 
-Now, build the image.
-* `make build`
+* Now, build the image: `make build`
 
 **Run**
 
-To run the code, please run the following. The terminal should return a link, which can be viewed via a browser or with the curl commands documented in the API reference section.
-* `make run`
+* To run the code, please run the following. The terminal should return a link, which can be viewed via a browser or with the curl commands documented in the API reference section: `make run`
 
-If the image is not built, it is more appropriate to run the following, to avoid any errors.
-* `make rapid`
-</details>
+* If the image is not built, it is more appropriate to run the following, to avoid any errors: `make rapid`
 
 ## Usage
-Once you have the docker image running and dependencies installed, we can execute the Flask App and use the REST API.
+Once you have the docker image running with dependencies installed, we can execute the Flask App and use the REST API.
 
 ### Running the Flask App
 The `iss_tracker.py` script contains the code needed to run the ISS Tracker App. To run the flask app, Execute the command `flask --app iss_tracker --debug run` on your terminal. Your local server is up and running when you see the message similar to this:
@@ -306,11 +295,6 @@ username:~/COE332/homework04$ curl localhost:5000/help
     /delete-data                    DELETE  Delete all data from the dictionary object
     /post-data                      POST    Reload the dictionary object with data from the web
     
-    You can find more information about the dataset used in the ISS Trajectory Data website:
-    https://spotthestation.nasa.gov/trajectory_data.cfm
-    
-    Please refer to ISS Tracker App's repository for more information:
-    https://github.com/dhannywi/COE332/tree/main/homework05
 ```
 
 #### 7. Route `/delete-data`
