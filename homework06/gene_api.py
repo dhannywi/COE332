@@ -1,27 +1,23 @@
 #!/usr/bin/env python3
 
+import json
 from flask import Flask, request
+import redis
 import requests
 import yaml
 
 app = Flask(__name__)
-data = {}
-MEAN_EARTH_RADIUS = 6371.0
 
 # ---------------------------- Methods ---------------------------------
-
-def get_data() -> dict:
+def get_redis_client():
     '''
-    Function fetches JSON data from a URL and returns data as nested dictionaries. 
-    Args:
-        None
+    Function starts Redis server
     Returns:
-        data (dict): Nested dictionaries of the HGNC data.
+        redis server connection
     '''
-    global data
-    data.clear()
-    response = requests.get(url='https://ftp.ebi.ac.uk/pub/databases/genenames/hgnc/json/hgnc_complete_set.json')
-    return response.json()
+    return redis.Redis(host='redis-db', port=6379, db=0, decode_response=True)
+
+ rd = get_redis_client()
 
 def get_config() -> dict:
     '''
@@ -41,17 +37,71 @@ def get_config() -> dict:
 
 # ---------------------------- API routes ---------------------------------
 
-@app.route('/', methods=['GET'])
-def get_hgnc_data() -> dict:
+@app.route('/data', methods=['POST', 'GET', 'DELETE'])
+def hgnc_data() -> list:
     '''
-    Function reads data stored in the `data` global variable. Returns nested dictionaries. 
-    Args:
-        None
+    Function write/reads/delete data stored in redis database. Returns nested dictionaries. 
     Returns:
-        data (dict): Nested dictionaries of the OEM data.
+        result (list): List of nested dictionaries of the HGNC data  for "GET" method,
+                       or status info (string) for "POST" and "DELETE" method.
     '''
-    if len(data) == 0:
-        return 'No data found. Please reload data.\n', 400
-    return data
+    if request.method == 'GET':
+        data = []
+        try:
+            for item in rd.keys():
+                data.append(rd.hgetall(item))
+        except Exception:
+            return 'No data. Please use "POST" to load data.\n'
+        return data
 
+    elif request.method == 'POST':
+        response = requests.get(url='https://ftp.ebi.ac.uk/pub/databases/genenames/hgnc/json/hgnc_complete_set.json')
+        for item in response.json()['response']['docs']:
+            key = item['hgnc_id']
+            rd.hset(key, mapping=item)
+        return 'Data loaded\n'
+    
+    elif request.method == 'DELETE':
+        rd.flushdb()
+        return f'Data deleted, there are {len(rd.keys())} keys in the db\n'
+
+    else:
+        return 'The method you tried'
+
+@app.route('/genes', methods=['GET'])
+def get_hgnc_id() -> list:
+    '''
+    Function fetches data from db and return a list of all hgnc_id fields (set as keys in db).
+    Returns:
+        result (list): A list of hgnc_id
+    '''
+    if len(rd.keys()) == 0:
+        return 'No data in db.\n'
+    return rd.keys()
+
+@app.route(/genes/<hgnc_id>) 
+def get_gene_data() -> dict:
+    '''
+    Given a string, this function retrieve data, iterates through database 
+    to retreive data from the requested hgnc_id.
+    Returns a dictionary containing gene data for a given hgnc_id.
+    Args:
+        hgnc_id (str): A specific hgnc_id in the data set, requested by user.
+    Returns:
+        result (dict): Gene data for a specific hgnc_id from the database.
+                       Returns an error message (str) in cases of invalid input or no data.
+    '''
+    if len(rd.keys()) == 0:
+        return 'No data in db.\n'
+    
+    for item in rd.keys(): # get gene data using key, if data not in db, return error
+        pass
+
+
+if __name__ == '__main__':    
+    config = get_config()
+    if config.get('debug', True):
+        app.run(debug=True, host='0.0.0.0')
+    else:
+        app.run(host='0.0.0.0')
 
