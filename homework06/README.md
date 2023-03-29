@@ -1,25 +1,26 @@
 # Gene-ius
 
-A containarized Flask application with Redis NoSQL database integration for querying and returning interesting information from HGNC data published by The Human Genome Organization (HUGO). 
-The REST API's repository includes Dockerfile for increased protability, and included Docker Compose to automate deployment.
+A containarized Flask application with persisting Redis NoSQL database integration for querying and returning interesting information from HGNC data published by The Human Genome Organization (HUGO). 
+
+The REST API's repository includes Dockerfile for protability, and included Docker Compose to automate deployment.
 
 ## Data Description
 `----------add description---------`
 More details about the dataset used can be found in the [HGNC complete set archive](https://www.genenames.org/download/archive/) website.
 
 ## Implementation
-The project uses **Python 3.8.10**, in particular **Flask 2.2.2**, and **Docker 20.10.12** for containerization. 
+The project uses **Python 3.8.10**, in particular **Flask 2.2.2**, **redis 4.5.1** and **Docker 20.10.12** for containerization. 
 
 Specific Python3 libraries are used:
 * `flask`
-* `math`
+* `json`
+* `redis`
 * `requests`
-* `xmltodict`
 * `pyyaml`
 
 ### Files
 * `Dockerfile` -- commands for building a new image
-* `docker-compose.yml` -- container application management scripts
+* `docker-compose.yml` -- container application management
 * `gene_api.py` -- python scripts for the Flask application
 * `README.md` -- project documentation
 
