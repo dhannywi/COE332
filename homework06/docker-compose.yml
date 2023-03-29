@@ -15,7 +15,7 @@ services:
             dockerfile: ./Dockerfile
         depends_on:
             - redis-db
-        image: username/ml_flask_app:1.0
+        image: dhannywi/gene-ius
         ports:
             - 5000:5000
         volumes:

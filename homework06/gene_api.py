@@ -7,18 +7,9 @@ import requests
 import yaml
 
 app = Flask(__name__)
+rd = redis.Redis(host='redis-db', port=6379, db=0, decode_responses=True)
 
 # ---------------------------- Methods ---------------------------------
-def get_redis_client():
-    '''
-    Function starts Redis server
-    Returns:
-        redis server connection
-    '''
-    return redis.Redis(host='redis-db', port=6379, db=0, decode_response=True)
-
- rd = get_redis_client()
-
 def get_config() -> dict:
     '''
     Function reads a configuration file and return the associated values, or return a default.
@@ -36,37 +27,35 @@ def get_config() -> dict:
         return default_config
 
 # ---------------------------- API routes ---------------------------------
-
 @app.route('/data', methods=['POST', 'GET', 'DELETE'])
 def hgnc_data() -> list:
     '''
-    Function write/reads/delete data stored in redis database. Returns nested dictionaries. 
+    Function write/read/delete data stored in redis database depending on method requested.
+    Returns list of nested dictionaries or status string.
     Returns:
         result (list): List of nested dictionaries of the HGNC data  for "GET" method,
                        or status info (string) for "POST" and "DELETE" method.
     '''
     if request.method == 'GET':
+        if len(rd.keys()) == 0:
+            return 'No data in db.\n'
         data = []
-        try:
-            for item in rd.keys():
-                data.append(rd.hgetall(item))
-        except Exception:
-            return 'No data. Please use "POST" to load data.\n'
+        for item in rd.keys():
+            data.append(json.loads(rd.get(item)))
         return data
 
     elif request.method == 'POST':
         response = requests.get(url='https://ftp.ebi.ac.uk/pub/databases/genenames/hgnc/json/hgnc_complete_set.json')
         for item in response.json()['response']['docs']:
-            key = item['hgnc_id']
-            rd.hset(key, mapping=item)
+            rd.set(item.get('hgnc_id'), json.dumps(item))
         return 'Data loaded\n'
     
     elif request.method == 'DELETE':
         rd.flushdb()
         return f'Data deleted, there are {len(rd.keys())} keys in the db\n'
-
+    
     else:
-        return 'The method you tried'
+        return 'The method you tried does not exist.\n'
 
 @app.route('/genes', methods=['GET'])
 def get_hgnc_id() -> list:
@@ -79,11 +68,10 @@ def get_hgnc_id() -> list:
         return 'No data in db.\n'
     return rd.keys()
 
-@app.route(/genes/<hgnc_id>) 
-def get_gene_data() -> dict:
+@app.route('/genes/<hgnc_id>', methods=['GET']) 
+def get_gene_data(hgnc_id: str) -> dict:
     '''
-    Given a string, this function retrieve data, iterates through database 
-    to retreive data from the requested hgnc_id.
+    Given a string, this function retrieve data from database based on the requested hgnc_id.
     Returns a dictionary containing gene data for a given hgnc_id.
     Args:
         hgnc_id (str): A specific hgnc_id in the data set, requested by user.
@@ -93,11 +81,12 @@ def get_gene_data() -> dict:
     '''
     if len(rd.keys()) == 0:
         return 'No data in db.\n'
-    
-    for item in rd.keys(): # get gene data using key, if data not in db, return error
-        pass
+    elif hgnc_id not in rd.keys():
+        return 'hgnc_id requested is invalid.\n'
+    else:
+        return json.loads(rd.get(hgnc_id))
 
-
+# ---------------------------- Run App ---------------------------------
 if __name__ == '__main__':    
     config = get_config()
     if config.get('debug', True):
