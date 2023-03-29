@@ -10,7 +10,7 @@ The Human Genome Organization (HUGO) is a non-profit which oversees the HUGO Gen
 The complete HGNC dataset file, available in both tab separated and JSON formats, are archived monthly and quarterly. For this project, we are using the "Current JSON format hgnc_complete_set file". It contains a set of all approved gene symbol reports found on the GRCh38 reference and the alternative reference loci.
 
 The data has 54 columns, and some columns are sparsely populated. Below are a brief overview of some fields:
-
+| Field Name              | Description                                                         |
 | ----------------------- | ------------------------------------------------------------------- |
 | hgnc_id                 | HGNC ID. A unique ID created by the HGNC for every approved symbol. |
 | symbol                  | The HGNC approved gene symbol. Equates to the "APPROVED SYMBOL" field within the gene symbol report. |
@@ -46,59 +46,17 @@ You have the option to build this project from source, or use the provided Docke
 
 We describe below the installation process using terminal commands, which are expected to run on a Ubuntu 20.04.5 machine with Python3. Installation may differ for other systems.
 
-<details>
-<summary><h3>From Docker (option 1)</h3></summary>
-
-**Install**
-
-* To install the Docker container, first install Docker: `sudo apt-get install docker` or follow installation instructions for [Docker Desktop](https://www.docker.com/get-started/) for your system. We are using Docker 20.10.12
-
-* Next, pull the images from the docker hub and install the containers: `docker pull dhannywi/gene-ius` and `docker pull redis:7`
-
-* Check the docker images currently running in your computer by executing: `docker images`
-The image you just installed would show up in the list of images:
-```console
-username:~/COE332/homework06$ docker images
-REPOSITORY             TAG       IMAGE ID       CREATED             SIZE
-dhannywi/gene-ius      latest    ba82680f899d   8 minutes ago       903MB
-redis                  7         dd786f66ff99   8 minutes ago       117MB
-```
-
-**Run**
-
-* Create a `data` folder inside the directory you are working on. Execute `mkdir data`. This allows redis to store data in the disk so that the data persist, even when the services are killed.
-* To run the code, execute: `add command` 
-The terminal should return a link, which can be viewed via a browser or with the curl commands documented in the API reference section. Your local server is up and running when you see this message:
-```console
-
-```
-
-```
-username:~$ docker run -it --rm -p 5000:5000 dhannywi/gene-ius
- * Serving Flask app 'gene_api'
- * Debug mode: on
-WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
- * Running on all addresses (0.0.0.0)
- * Running on http://127.0.0.1:5000
- * Running on http://172.17.0.2:5000
-Press CTRL+C to quit
- * Restarting with stat
- * Debugger is active!
- * Debugger PIN: 463-886-503
-```
-
-</details>
-
+**Source build using docker-compose file provided in this repository is highly recommended as it automates your deployment process to a single step**
 
 <details>
-<summary><h3>Source build (option 2)</h3></summary>
+<summary><h3>Source build (option 1)</h3></summary>
 
 Since this is a Docker build, the requirements need not be installed, as it will automatically be done on the Docker image. All commands, unless otherwise noted, are to be run in a terminal (in the `homework06` directory of the cloned repository).
 
 * First, install Docker: `sudo apt-get install docker` or follow installation instructions for [Docker Desktop](https://www.docker.com/get-started/) for your system. We are using **Docker 20.10.12**
 * Next, install docker-compose: `sudo apt-get install docker-compose-plugin` or follow the instructions [here](https://docs.docker.com/compose/install/linux/). We are using **Docker Compose 1.25.0**
 * Clone the  repository: `git clone https://github.com/dhannywi/COE332.git`
-* Then, change directory into the `homework06` folder: `cd .\homework06\`
+* Then, change directory into the `homework06` folder: `cd ./homework06/`
 * The folder should contain four files: `Dockerfile`, `docker-compose.yml`, `gene_api.py`, and `README.md`
 
 
@@ -144,10 +102,16 @@ d1e8117bdd49   dhannywi/gene-ius   "python gene_api.py"     49 minutes ago   Up 
 
 ### **Option 2:** Build and run your own docker image
 * First, create a `data` folder inside the `homework06` directory. Execute `mkdir data`. This allows redis to store data in the disk so that the data persist even when the services are killed.
+* Pull docker image for redis, execute `docker pull redis:7`
 * Now, build the image: `docker build -t dhannywi/gene-ius .`
 This output shows that your build is successful:
 ```console
-
+username:~/COE332/homework06$ docker build -t dhannywi/gene-ius .
+Sending build context to Docker daemon  58.37kB
+...
+...
+Successfully built 54af1d1a71c4
+Successfully tagged dhannywi/gene-ius:latest
 ```
 
 * Check the docker images currently running in your computer by executing: `docker images`. The image you just built would show up in the list of images:
@@ -158,9 +122,26 @@ dhannywi/gene-ius      latest    ba82680f899d   8 minutes ago       903MB
 redis                  7         dd786f66ff99   8 minutes ago       117MB
 ```
 
-* Execute `docker run -d -p 6379:6379 -v <path/on/host>/data:/data:rw redis:7 --save 1 1` command, but replace the `</path/on/host>` with the present working directory of the `homework06` folder. You can find the path by executing `pwd`
-
-* Now, your services is up and running and ready for query
+* Execute `docker-compose up` and your services is up and running when you see the message:
+```console
+username:~/COE332/homework06$ docker-compose up
+Creating network "homework06_default" with the default driver
+Creating homework06_redis-db_1 ... done
+Creating homework06_flask-app_1 ... done
+Attaching to homework06_redis-db_1, homework06_flask-app_1
+redis-db_1   | 1:C 29 Mar 2023 12:47:46.640 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+...
+...
+redis-db_1   | 1:M 29 Mar 2023 12:47:46.641 * Ready to accept connections
+flask-app_1  |  * Serving Flask app 'gene_api'
+flask-app_1  |  * Debug mode: on
+...
+...
+flask-app_1  | Press CTRL+C to quit
+flask-app_1  |  * Restarting with stat
+flask-app_1  |  * Debugger is active!
+flask-app_1  |  * Debugger PIN: 255-629-791
+```
 
 ##
 **Killing the services**
@@ -171,8 +152,62 @@ Removing homework06_flask-app_1 ... done
 Removing homework06_redis-db_1  ... done
 Removing network homework06_default
 ```
-
 </details>
+
+<details>
+<summary><h3>From Docker Hub (option 2)</h3></summary>
+
+**Install**
+
+* To install the Docker container, first install Docker: `sudo apt-get install docker` or follow installation instructions for [Docker Desktop](https://www.docker.com/get-started/) for your system. We are using Docker 20.10.12
+
+* Next, pull the images from the docker hub and install the containers: `docker pull dhannywi/gene-ius` and `docker pull redis:7`
+
+* Check the docker images currently running in your computer by executing: `docker images`
+The image you just installed would show up in the list of images:
+```console
+username:~/COE332/homework06$ docker images
+REPOSITORY             TAG       IMAGE ID       CREATED             SIZE
+dhannywi/gene-ius      latest    ba82680f899d   8 minutes ago       903MB
+redis                  7         dd786f66ff99   8 minutes ago       117MB
+```
+
+**Run**
+
+* Create a `data` folder inside the directory you are working on. Execute `mkdir data`. This allows redis to store data in the disk so that the data persist, even when the services are killed.
+* First run the Redis image and bind mount to the data folder you just created, execute: `docker run -d -p 6379:6379 -v </path/on/host>:/data redis:7 --save 1 1`.
+You can use the `$(pwd)` shortcut for the present working directory. For example:
+```console
+username:~$ docker run -p 6379:6379 -v /home/ubuntu/data:/data redis:7 --save 1 1
+1:C 29 Mar 2023 11:58:04.482 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+1:C 29 Mar 2023 11:58:04.482 # Redis version=7.0.10, bits=64, commit=00000000, modified=0, pid=1, just started
+1:C 29 Mar 2023 11:58:04.482 # Configuration loaded
+1:M 29 Mar 2023 11:58:04.482 * monotonic clock: POSIX clock_gettime
+1:M 29 Mar 2023 11:58:04.483 * Running mode=standalone, port=6379.
+1:M 29 Mar 2023 11:58:04.483 # Server initialized
+1:M 29 Mar 2023 11:58:04.483 # WARNING Memory overcommit must be enabled! Without it, a background save or replication may fail under low memory condition. Being disabled, it can can also cause failures without low memory condition, see https://github.com/jemalloc/jemalloc/issues/1328. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.
+1:M 29 Mar 2023 11:58:04.484 * Ready to accept connections
+```
+* This will take over your terminal, so open a new terminal to move on to the next step.
+* To run the code, execute: `docker run -it --rm -p 5000:5000 dhannywi/gene-ius` 
+The terminal should return a link, which can be viewed via a browser or with the curl commands documented in the API reference section. Your local server is up and running when you see this message:
+```console
+username:~$ docker run -it --rm -p 5000:5000 dhannywi/gene-ius
+ * Serving Flask app 'gene_api'
+ * Debug mode: on
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.17.0.2:5000
+Press CTRL+C to quit
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 463-886-503
+```
+* Check that all the services are running by executing `docker ps -a`
+* when you want to kill the services, execute `docker rm -f <container id you want to kill>`
+</details>
+
 <br>
 
 ## Usage
