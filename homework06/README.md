@@ -11,6 +11,7 @@ The complete HGNC dataset file, available in both tab separated and JSON formats
 
 The data has 54 columns, and some columns are sparsely populated. Below are a brief overview of some fields:
 
+| ----------------------- | ------------------------------------------------------------------- |
 | hgnc_id                 | HGNC ID. A unique ID created by the HGNC for every approved symbol. |
 | symbol                  | The HGNC approved gene symbol. Equates to the "APPROVED SYMBOL" field within the gene symbol report. |
 | name                    | HGNC approved name for the gene. Equates to the "APPROVED NAME" field within the gene symbol report. |
@@ -65,10 +66,25 @@ redis                  7         dd786f66ff99   8 minutes ago       117MB
 
 **Run**
 
+* Create a `data` folder inside the directory you are working on. Execute `mkdir data`. This allows redis to store data in the disk so that the data persist, even when the services are killed.
 * To run the code, execute: `add command` 
 The terminal should return a link, which can be viewed via a browser or with the curl commands documented in the API reference section. Your local server is up and running when you see this message:
 ```console
 
+```
+
+```
+username:~$ docker run -it --rm -p 5000:5000 dhannywi/gene-ius
+ * Serving Flask app 'gene_api'
+ * Debug mode: on
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.17.0.2:5000
+Press CTRL+C to quit
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 463-886-503
 ```
 
 </details>
