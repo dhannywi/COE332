@@ -145,6 +145,7 @@ flask-app_1  |  * Debugger PIN: 255-629-791
 
 ##
 **Killing the services**
+
 If you madea any changes to the `gene_api.py` file, you will need to kill the existing services that's running and rebuild. Execute `docker-compose down`. The services are removed when you see the following message:
 ```console
 username:~/COE332/homework06$ docker-compose down
