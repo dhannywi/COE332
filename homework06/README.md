@@ -66,12 +66,12 @@ Since this is a Docker build, the requirements need not be installed, as it will
 
 * First, install Docker: `sudo apt-get install docker` or follow installation instructions for [Docker Desktop](https://www.docker.com/get-started/) for your system. We are using **Docker 20.10.12**
 * Next, install docker-compose: `sudo apt-get install docker-compose-plugin` or follow the instructions [here](https://docs.docker.com/compose/install/linux/). We are using **Docker Compose 1.25.0**
-* Clone the  repository: `git clone (add repo name)`
+* Clone the  repository: `git clone https://github.com/dhannywi/COE332.git`
 * Then, change directory into the `homework06` folder: `cd .\homework06\`
 * The folder should contain four files: `Dockerfile`, `docker-compose.yml`, `gene_api.py`, and `README.md`
 
-**Option 1:** Automate deployment using `docker-compose`
 
+### **Option 1:** Automate deployment using `docker-compose`
 The quickest way to get your services up and running is to use `docker-compose` to automate deployment.
 * Create a `data` folder inside the `homework06` directory. Execute `mkdir data`. This allows redis to store data in the disk so that the data persist, even when the services are killed.
 * Execute `docker-compose up --build`. Your images are built and services are up and running when you see this message:
@@ -111,8 +111,7 @@ d1e8117bdd49   dhannywi/gene-ius   "python gene_api.py"     49 minutes ago   Up 
 90f7ace06c22   redis:7             "docker-entrypoint.s…"   49 minutes ago   Up 49 minutes              0.0.0.0:6379->6379/tcp, :::6379->6379/tcp   homework06_redis-db_1
 ```
 
-**Option 2:** Build and run your own docker image
-
+### **Option 2:** Build and run your own docker image
 * First, create a `data` folder inside the `homework06` directory. Execute `mkdir data`. This allows redis to store data in the disk so that the data persist even when the services are killed.
 * Now, build the image: `docker build -t dhannywi/gene-ius .`
 This output shows that your build is successful:
@@ -166,8 +165,10 @@ username:~/COE332/homework06$ curl localhost:5000/genes
 No data in db
 ```
 
-#### 1. Route `/data`
-The `/data` route has 3 methods: `GET`, `POST`, and `DELETE`. The first time you are running the services you will need to use the `POST` method to load data into the database. Execute the command `curl localhost:5000/data -X POST` on your terminal. This may take a while, data has been successfully loaded into db when you see the message:
+The `/data` route has 3 methods: `GET`, `POST`, and `DELETE`. The first time you are running the services you will need to use the `POST` method to load data into the database. 
+
+#### 1. Route `/data` with `POST` method
+Execute the command `curl localhost:5000/data -X POST` on your terminal. This may take a while, data has been successfully loaded into db when you see the message:
 ```console
 username: :~/COE332/homework06$ curl localhost:5000/data -X POST
 Data loaded
