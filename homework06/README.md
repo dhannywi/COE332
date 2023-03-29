@@ -5,7 +5,22 @@ A containarized Flask application with persisting Redis NoSQL database integrati
 The REST API's repository includes Dockerfile for protability, and included Docker Compose to automate deployment.
 
 ## Data Description
-`----------add description---------`
+The Human Genome Organization (HUGO) is a non-profit which oversees the HUGO Gene Nomenclature Committee (HGNC). The HGNC "approves a unique and meaningful name for every gene".
+
+The complete HGNC dataset file, available in both tab separated and JSON formats, are archived monthly and quarterly. For this project, we are using the "Current JSON format hgnc_complete_set file". It contains a set of all approved gene symbol reports found on the GRCh38 reference and the alternative reference loci.
+
+The data has 54 columns, and some columns are sparsely populated. Below are a brief overview of some fields:
+
+| hgnc_id                 | HGNC ID. A unique ID created by the HGNC for every approved symbol. |
+| symbol                  | The HGNC approved gene symbol. Equates to the "APPROVED SYMBOL" field within the gene symbol report. |
+| name                    | HGNC approved name for the gene. Equates to the "APPROVED NAME" field within the gene symbol report. |
+| locus_group             | A group name for a set of related locus types as defined by the HGNC (e.g. non-coding RNA). |
+| locus_type              | The locus type as defined by the HGNC (e.g. RNA, transfer). |
+| status                  | Status of the symbol report, which can be either "Approved" or "Entry Withdrawn". |
+| location                | Cytogenetic location of the gene (e.g. 2q34). |
+| location_sortable       | Same as "location" but single digit chromosomes are prefixed with a 0 enabling them to be sorted in correct numerical order (e.g. 02q34). |
+| date_approved_reserved  | The date the entry was first approved. |
+
 More details about the dataset used can be found in the [HGNC complete set archive](https://www.genenames.org/download/archive/) website.
 
 ## Implementation
@@ -127,9 +142,9 @@ dhannywi/gene-ius      latest    ba82680f899d   8 minutes ago       903MB
 redis                  7         dd786f66ff99   8 minutes ago       117MB
 ```
 
-* Execute `docker run -d -p 6379:6379 -v <path/on/host>/data:/data:rw redis:7 --save 1 1` command, but replace the `</path/on/host>` with the present working directory of the `homework06` folder. You can fing the path by executing `pwd`
+* Execute `docker run -d -p 6379:6379 -v <path/on/host>/data:/data:rw redis:7 --save 1 1` command, but replace the `</path/on/host>` with the present working directory of the `homework06` folder. You can find the path by executing `pwd`
 
-* Now, your services is up and running
+* Now, your services is up and running and ready for query
 
 ##
 **Killing the services**
@@ -269,7 +284,7 @@ username::~/COE332/homework06$ curl localhost:5000/genes
 ]
 ```
 
-#### 3. Route `/genes/<hgnc_id>`
+#### 5. Route `/genes/<hgnc_id>`
 We can query for the gene data of a specific `hgnc_id` in the dataset. To do this, execute the command `curl localhost:5000/genes/<hgnc_id>` on your terminal, but replace `<hgnc_id>` with a particular id you are interested in.
 
 For example, `curl localhost:5000/genes/HGNC:33843` results in output below:
@@ -333,7 +348,7 @@ username:~/COE332/homework06$ curl localhost:5000/genes/HGNC:33843
 }
 ```
 
-However, if you request an invalid id, for example `:~/COE332/homework06$ curl localhost:5000/genes/abc`, you will get:
+However, if you request an invalid id, for example `curl localhost:5000/genes/abc`, you will get:
 ```console
 username:~/COE332/homework06$ curl localhost:5000/genes/abc
 hgnc_id requested is invalid.
