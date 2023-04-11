@@ -247,7 +247,7 @@ py-debug-deployment-f484b4b99-vj8qx            1/1     Running   0              
 
 * Note the python debug deployment name to access it:
 `kubectl exec -it py-debug-deployment-f484b4b99-vj8qx -- /bin/bash`
-* It will allow you to use a bash terminal similar to below:
+* It will allow you to use a bash terminal similar to:
 `root@py-debug-deployment-f484b4b99-vj8qx:/#`
 
 
