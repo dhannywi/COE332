@@ -242,10 +242,6 @@ NAME                                           READY   STATUS    RESTARTS       
 dwi67-test-flask-deployment-6b66d4f7fd-9tksm   1/1     Running   0               5m56s   10.233.86.58    kube-worker-2   <none>           <none>
 dwi67-test-flask-deployment-6b66d4f7fd-cxthz   1/1     Running   0               6m1s    10.233.116.82   kube-worker-1   <none>           <none>
 dwi67-test-redis-deployment-7689988fd-pkk4x    1/1     Running   0               10m     10.233.86.55    kube-worker-2   <none>           <none>
-hello-deployment-55c5b77fc-7q6bg               1/1     Running   0               10m     10.233.86.57    kube-worker-2   <none>           <none>
-hello-label                                    1/1     Running   458 (57m ago)   19d     10.233.85.227   kube-worker-2   <none>           <none>
-hello-pvc-deployment-5658899cf8-6rftd          1/1     Running   339 (19s ago)   14d     10.233.85.209   kube-worker-2   <none>           <none>
-helloflask-7bf64cc577-r6jxx                    1/1     Running   0               9m58s   10.233.116.47   kube-worker-1   <none>           <none>
 py-debug-deployment-f484b4b99-vj8qx            1/1     Running   0               9m25s   10.233.85.197   kube-worker-2   <none>           <none>
 ```
 
