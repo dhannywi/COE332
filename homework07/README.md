@@ -39,6 +39,7 @@ Specific Python3 libraries are used:
 * `docker-compose.yml` -- container application management
 * `gene_api.py` -- python scripts for the Flask application
 * `README.md` -- project documentation
+
 In addition, there are six files for kubernetes deployment:
 * `dwi67-deployment-python-debug.yml`
 * `dwi67-test-pvc.yml`
