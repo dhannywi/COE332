@@ -14,8 +14,8 @@ services:
             context: ./
             dockerfile: ./Dockerfile
         depends_on:
-            - redis-db
-        image: dhannywi/gene-ius
+            - dwi67-test-redis-service
+        image: dhannywi/gene-ius:kube
         ports:
             - 5000:5000
         volumes:
