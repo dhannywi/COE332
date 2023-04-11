@@ -2,7 +2,7 @@
 
 A containarized Flask application with persisting Redis NoSQL database integration for querying and returning interesting information from HGNC data published by The Human Genome Organization (HUGO). 
 
-The REST API's repository includes Dockerfile for protability, and included Docker Compose to automate deployment.
+The REST API's repository includes Dockerfile for protability, and included Docker Compose to automate deployment. In addition, there are six yaml files to deploy the app on a kubernetes cluster.
 
 ## Data Description
 The Human Genome Organization (HUGO) is a non-profit which oversees the HUGO Gene Nomenclature Committee (HGNC). The HGNC "approves a unique and meaningful name for every gene".
@@ -39,6 +39,13 @@ Specific Python3 libraries are used:
 * `docker-compose.yml` -- container application management
 * `gene_api.py` -- python scripts for the Flask application
 * `README.md` -- project documentation
+In addition, there are six files for kubernetes deployment:
+* `dwi67-deployment-python-debug.yml`
+* `dwi67-test-pvc.yml`
+* `dwi67-test-flask-deployment.yml`
+* `dwi67-test-redis-deployment.yml`
+* `dwi67-test-flask-service.yml`
+* `dwi67-test-redis-service.yml`
 
 ## Installation
 
@@ -56,25 +63,24 @@ Since this is a Docker build, the requirements need not be installed, as it will
 * First, install Docker: `sudo apt-get install docker` or follow installation instructions for [Docker Desktop](https://www.docker.com/get-started/) for your system. We are using **Docker 20.10.12**
 * Next, install docker-compose: `sudo apt-get install docker-compose-plugin` or follow the instructions [here](https://docs.docker.com/compose/install/linux/). We are using **Docker Compose 1.25.0**
 * Clone the  repository: `git clone https://github.com/dhannywi/COE332.git`
-* Then, change directory into the `homework06` folder: `cd ./homework06/`
-* The folder should contain four files: `Dockerfile`, `docker-compose.yml`, `gene_api.py`, and `README.md`
+* Then, change directory into the `homework07` folder: `cd ./homework07/`
 
 
 ### **Option 1:** Automate deployment using `docker-compose`
 The quickest way to get your services up and running is to use `docker-compose` to automate deployment.
-* Create a `data` folder inside the `homework06` directory. Execute `mkdir data`. This allows redis to store data in the disk so that the data persist, even when the services are killed.
+* Create a `data` folder inside the `homework07` directory. Execute `mkdir data`. This allows redis to store data in the disk so that the data persist, even when the services are killed.
 * Execute `docker-compose up --build`. Your images are built and services are up and running when you see this message:
 ```console
-username::~/COE332/homework06$ docker-compose up --build
-Creating network "homework06_default" with the default driver
+username:~/COE332/homework07$ docker-compose up --build
+Creating network "homework07_default" with the default driver
 Building flask-app
 ...
 ...
 Successfully built ba82680f899d
 Successfully tagged dhannywi/gene-ius:latest
-Creating homework06_redis-db_1 ... done
-Creating homework06_flask-app_1 ... done
-Attaching to homework06_redis-db_1, homework06_flask-app_1
+Creating homework07_redis-db_1 ... done
+Creating homework07_flask-app_1 ... done
+Attaching to homework07_redis-db_1, homework06_flask-app_1
 redis-db_1   | 1:C 29 Mar 2023 02:23:48.490 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
 ...
 ...
@@ -93,20 +99,20 @@ flask-app_1  |  * Debugger PIN: 707-110-167
 
 * Execute `docker ps -a`. You should see the containers running.
 ```console
-username:~/COE332/homework06$ docker ps -a
+username:~/COE332/homework07$ docker ps -a
 CONTAINER ID   IMAGE               COMMAND                  CREATED          STATUS                     PORTS
           NAMES
-d1e8117bdd49   dhannywi/gene-ius   "python gene_api.py"     49 minutes ago   Up 49 minutes              0.0.0.0:5000->5000/tcp, :::5000->5000/tcp   homework06_flask-app_1
-90f7ace06c22   redis:7             "docker-entrypoint.s…"   49 minutes ago   Up 49 minutes              0.0.0.0:6379->6379/tcp, :::6379->6379/tcp   homework06_redis-db_1
+d1e8117bdd49   dhannywi/gene-ius   "python gene_api.py"     49 minutes ago   Up 49 minutes              0.0.0.0:5000->5000/tcp, :::5000->5000/tcp   homework07_flask-app_1
+90f7ace06c22   redis:7             "docker-entrypoint.s…"   49 minutes ago   Up 49 minutes              0.0.0.0:6379->6379/tcp, :::6379->6379/tcp   homework07_redis-db_1
 ```
 
 ### **Option 2:** Build and run your own docker image
-* First, create a `data` folder inside the `homework06` directory. Execute `mkdir data`. This allows redis to store data in the disk so that the data persist even when the services are killed.
+* First, create a `data` folder inside the `homework07` directory. Execute `mkdir data`. This allows redis to store data in the disk so that the data persist even when the services are killed.
 * Pull docker image for redis, execute `docker pull redis:7`
 * Now, build the image: `docker build -t dhannywi/gene-ius .`
 This output shows that your build is successful:
 ```console
-username:~/COE332/homework06$ docker build -t dhannywi/gene-ius .
+username:~/COE332/homework07$ docker build -t dhannywi/gene-ius .
 Sending build context to Docker daemon  58.37kB
 ...
 ...
@@ -116,7 +122,7 @@ Successfully tagged dhannywi/gene-ius:latest
 
 * Check the docker images currently running in your computer by executing: `docker images`. The image you just built would show up in the list of images:
 ```console
-username:~/COE332/homework06$ docker images
+username:~/COE332/homework07$ docker images
 REPOSITORY             TAG       IMAGE ID       CREATED             SIZE
 dhannywi/gene-ius      latest    ba82680f899d   8 minutes ago       903MB
 redis                  7         dd786f66ff99   8 minutes ago       117MB
@@ -124,11 +130,11 @@ redis                  7         dd786f66ff99   8 minutes ago       117MB
 
 * Execute `docker-compose up` and your services is up and running when you see the message:
 ```console
-username:~/COE332/homework06$ docker-compose up
-Creating network "homework06_default" with the default driver
-Creating homework06_redis-db_1 ... done
-Creating homework06_flask-app_1 ... done
-Attaching to homework06_redis-db_1, homework06_flask-app_1
+username:~/COE332/homework07$ docker-compose up
+Creating network "homework07_default" with the default driver
+Creating homework07_redis-db_1 ... done
+Creating homework07_flask-app_1 ... done
+Attaching to homework07_redis-db_1, homework06_flask-app_1
 redis-db_1   | 1:C 29 Mar 2023 12:47:46.640 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
 ...
 ...
@@ -148,10 +154,10 @@ flask-app_1  |  * Debugger PIN: 255-629-791
 
 If you madea any changes to the `gene_api.py` file, you will need to kill the existing services that's running and rebuild. Execute `docker-compose down`. The services are removed when you see the following message:
 ```console
-username:~/COE332/homework06$ docker-compose down
-Removing homework06_flask-app_1 ... done
-Removing homework06_redis-db_1  ... done
-Removing network homework06_default
+username:~/COE332/homework07$ docker-compose down
+Removing homework07_flask-app_1 ... done
+Removing homework07_redis-db_1  ... done
+Removing network homework07_default
 ```
 </details>
 
@@ -167,7 +173,7 @@ Removing network homework06_default
 * Check the docker images currently running in your computer by executing: `docker images`
 The image you just installed would show up in the list of images:
 ```console
-username:~/COE332/homework06$ docker images
+username:~/COE332/homework07$ docker images
 REPOSITORY             TAG       IMAGE ID       CREATED             SIZE
 dhannywi/gene-ius      latest    ba82680f899d   8 minutes ago       903MB
 redis                  7         dd786f66ff99   8 minutes ago       117MB
@@ -211,6 +217,43 @@ Press CTRL+C to quit
 
 <br>
 
+## Kubernetes Deployment
+To run this app on a Kubernetes cluster, enter the following commands in the console from which you have Kubernetes access:
+* `kubectl apply -f dwi67-test-redis-deployment.yml`
+* `kubectl apply -f dwi67-test-pvc.yml`
+* `kubectl apply -f dwi67-test-flask-deployment.yml`
+* `kubectl apply -f dwi67-test-redis-service.yml`
+* `kubectl apply -f dwi67-test-flask-service.yml`
+* `kubectl apply -f dwi67-test-python-debug.yml`
+
+You will see a confirmation message after running each command. For example:
+```console
+username:~/COE332/homework07$ kubectl apply -f dwi67-test-flask-deployment.yml
+deployment.apps/dwi67-test-flask-deployment configured
+```
+**NOTE:** if you wish to use your own Flask API in the kubernetes cluster, you must change the image being pulled in `dwi67-test-flask-deployment` to your preferred image on Docker Hub and then re-apply the kubernetes depolyment.
+
+
+* To check if your pods are running and discover the IP address of your redis pod, execute the command `kubectl get pods -o wide`
+```console
+username:~/COE332/homework07$ kubectl get pods -o wide
+NAME                                           READY   STATUS    RESTARTS        AGE     IP              NODE            NOMINATED NODE   READINESS GATES
+dwi67-test-flask-deployment-6b66d4f7fd-9tksm   1/1     Running   0               5m56s   10.233.86.58    kube-worker-2   <none>           <none>
+dwi67-test-flask-deployment-6b66d4f7fd-cxthz   1/1     Running   0               6m1s    10.233.116.82   kube-worker-1   <none>           <none>
+dwi67-test-redis-deployment-7689988fd-pkk4x    1/1     Running   0               10m     10.233.86.55    kube-worker-2   <none>           <none>
+hello-deployment-55c5b77fc-7q6bg               1/1     Running   0               10m     10.233.86.57    kube-worker-2   <none>           <none>
+hello-label                                    1/1     Running   458 (57m ago)   19d     10.233.85.227   kube-worker-2   <none>           <none>
+hello-pvc-deployment-5658899cf8-6rftd          1/1     Running   339 (19s ago)   14d     10.233.85.209   kube-worker-2   <none>           <none>
+helloflask-7bf64cc577-r6jxx                    1/1     Running   0               9m58s   10.233.116.47   kube-worker-1   <none>           <none>
+py-debug-deployment-f484b4b99-vj8qx            1/1     Running   0               9m25s   10.233.85.197   kube-worker-2   <none>           <none>
+```
+
+* Note the python debug deployment name to access it:
+`kubectl exec -it py-debug-deployment-f484b4b99-vj8qx -- /bin/bash`
+* It will allow you to use a bash terminal similar to below:
+`root@py-debug-deployment-f484b4b99-vj8qx:/#`
+
+
 ## Usage
 Once you have the docker image running with dependencies installed and the local server running, we can start querying using the REST API in the Flask app.
 
@@ -228,7 +271,7 @@ There are thirteen routes for you to request data from:
 ### Querying HGNC data using the REST API
 Since we need to keep the server running in order to make requests, open an additional shell and change your directory to the same directory your server is running. The data has been automatically loaded and you can start querying. Keep in mind that if you accidentally queried using the `DELETE` method, you will need to query using the `POST` method first in order to re-load the dataset into the database. Otherwise, when data has not been loaded/ has been deleted, you will receive an error message. For example:
 ```console
-username:~/COE332/homework06$ curl localhost:5000/genes
+username:$ curl localhost:5000/genes
 No data in db
 ```
 
@@ -237,14 +280,14 @@ The `/data` route has 3 methods: `GET`, `POST`, and `DELETE`. The first time you
 #### 1. Route `/data` with `POST` method
 Execute the command `curl localhost:5000/data -X POST` on your terminal. This may take a while, data has been successfully loaded into db when you see the message:
 ```console
-username: :~/COE332/homework06$ curl localhost:5000/data -X POST
+username:$ curl localhost:5000/data -X POST
 Data loaded
 ```
 
 #### 2. Route `/data` with `GET` method
 If you want the App to return all the available data in the database, execute `curl localhost:5000/data`. Your output will be similar to below:
 ```console
-username: :~/COE332/homework06$ curl localhost:5000/data
+username:$ curl localhost:5000/data
 [
   ...,
   {
@@ -313,7 +356,7 @@ When you wish to delete existing data in the database, execute `curl localhost:5
 
 Database is cleared when you see the message:
 ```console
-username:~/COE332/homework06$ curl localhost:5000/data -X DELETE
+username:$ curl localhost:5000/data -X DELETE
 Data deleted, there are 0 keys in the db
 ```
 
@@ -321,7 +364,7 @@ Data deleted, there are 0 keys in the db
 Next, we will query for a list of all the available `hgnc_id` in the data set. Execute the command `curl localhost:5000/genes` on your terminal. You should get output similar to this:
 
 ```console
-username::~/COE332/homework06$ curl localhost:5000/genes
+username:$ curl localhost:5000/genes
 [ ....,
   "HGNC:31407",
   "HGNC:1434",
@@ -342,7 +385,7 @@ We can query for the gene data of a specific `hgnc_id` in the dataset. To do thi
 For example, `curl localhost:5000/genes/HGNC:33843` results in output below:
 
 ```console
-username:~/COE332/homework06$ curl localhost:5000/genes/HGNC:33843
+username:$ curl localhost:5000/genes/HGNC:33843
 {
   "_version_": 1761599382604480512,
   "agr": "HGNC:33843",
@@ -402,7 +445,7 @@ username:~/COE332/homework06$ curl localhost:5000/genes/HGNC:33843
 
 However, if you request an invalid id, for example `curl localhost:5000/genes/abc`, you will get:
 ```console
-username:~/COE332/homework06$ curl localhost:5000/genes/abc
+username:$ curl localhost:5000/genes/abc
 hgnc_id requested is invalid.
 ```
 

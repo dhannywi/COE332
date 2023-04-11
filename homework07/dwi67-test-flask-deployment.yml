@@ -24,7 +24,7 @@ spec:
       containers:
         - name: dwi67-test-flask
           imagePullPolicy: Always
-          image: dhannywi/gene-ius:kube
+          image: dhannywi/gene-ius
           env:
           - name: FLASK_APP
             value: "gene_api.py"
