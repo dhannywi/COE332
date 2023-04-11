@@ -7,7 +7,7 @@ import requests
 import yaml
 
 app = Flask(__name__)
-rd = redis.Redis(host='dwi67-test-redis-service', port=6379, db=0, decode_responses=True)
+rd = redis.Redis(host='redis-db', port=6379, db=0, decode_responses=True)
 
 # ---------------------------- Methods ---------------------------------
 def get_config() -> dict:
