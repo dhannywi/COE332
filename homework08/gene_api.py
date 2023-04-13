@@ -9,25 +9,19 @@ import os
 import matplotlib.pyplot as plt
 
 app = Flask(__name__)
+rd = redis.Redis(host='redis-db', port=6379, db=0, decode_responses=True)
+rd_1 = redis.Redis(host='redis-db', port=6379, db=1)
+'''
+redis_ip = os.environ.get('REDIS_IP')
+if not redis_ip:
+    raise Exception()
+# initiate db tab 0 for storing data
+rd = redis.Redis(host=redis_ip, port=6379, db=0, decode_responses=True)
+# initiate db tab 1 for plotting
+rd_1 = redis.Redis(host=redis_ip, port=6379, db=1)
+'''
 
 # ---------------------------- Methods ---------------------------------
-def get_redis_client(tab: int):
-    '''
-    Function creates a connection to a redis database
-    Args:
-        None
-    Returns:
-        result: Redis client
-    '''
-    redis_ip = os.environ.get('REDIS_IP')
-    if not redis_ip:
-        raise Exception()
-    return redis.Redis(host=redis_ip, port=6379, db=tab, decode_responses=True)
-
-rd = get_redis_client(0)
-# second db tab for plotting
-rd_2 = get_redis_client(1)
-
 def get_config() -> dict:
     '''
     Function reads a configuration file and return the associated values, or return a default.
@@ -125,7 +119,7 @@ def get_image():
                 plot_data[key] += 1
             else:
                 plot_data[key] = 1
-        # get key and value data for plotting
+        # get key and value for plotting
         x = [i for i in plot_data.keys()]
         y = [i for i in plot_data.values()]
         # create barplot
@@ -133,27 +127,29 @@ def get_image():
         plt.xlabel("locus group")
         plt.ylabel("count")
         plt.title("Number of registered genes per locus group")
-        plt.savefig('locus_grp.png')
+        plt.savefig('./locus_grp.png')
         plt.show()
         # save to redis db
         file_bytes = open('./locus_grp.png', 'rb').read()
-        return rd_2.set('locus_plot', file_bytes)
+        rd_1.set('locus_plot', file_bytes)
+        return 'Plot saved to db.\n'
         
     elif request.method == 'GET':
         if len(rd.keys()) == 0:
             return 'No data in db.\n'
-        elif 'locus_plot' not in rd.keys():
+        elif 'locus_plot' not in rd_1.keys():
             return 'Plot not in db, pls execute "POST" method to create plot.\n'
         # get plot image from db
-        path = './myplot.png'
+        path = './locus_grp.png'
         with open(path, 'wb') as f:
-            f.write(rd.get('locus_plot'))
+            f.write(rd_1.get('locus_plot'))
+        print('Fetching plot from db.\n')
         return send_file(path, mimetype='image/png', as_attachment=True)
     
     elif request.method == 'DELETE':
         # delete plot image from db
-        rd.delete('locus_plot')
-        return 'Plot data deleted from db.\n'
+        rd_1.delete('locus_plot')
+        return 'Plot deleted from db.\n'
     
     else:
         return 'The method you tried does not exist.\n'
