@@ -17,7 +17,7 @@ services:
             - redis-db
         environment:
             - REDIS_IP=dwi67-test-redis-service
-        image: dhannywi/gene-ius
+        image: dhannywi/gene-ius:kube
         ports:
             - 5000:5000
         volumes:
