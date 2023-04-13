@@ -4,20 +4,20 @@ kind: Deployment
 metadata:
   name: dwi67-test-redis-deployment
   labels:
-    app: dwi67-test-app
+    app: dwi67-test-redis
     username: dwi67
     env: test
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: dwi67-test-app
+      app: dwi67-test-redis
       username: dwi67
       env: test
   template:
     metadata:
       labels:
-        app: dwi67-test-app
+        app: dwi67-test-redis
         username: dwi67
         env: test
     spec:

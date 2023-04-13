@@ -9,7 +9,7 @@ metadata:
 spec:
   type: ClusterIP
   selector:
-    app: dwi67-test-app
+    app: dwi67-test-redis
     username: dwi67
     env: test
   ports:
