@@ -1,6 +1,6 @@
 # Gene-ius
 
-A containarized Flask application with persisting Redis NoSQL database integration for querying and returning interesting information from HGNC data published by The Human Genome Organization (HUGO). 
+A containarized Flask application with persisting Redis NoSQL database integration on Kubernetes for querying and returning interesting information from HGNC data published by The Human Genome Organization (HUGO). 
 
 The REST API's repository includes Dockerfile for protability, and included Docker Compose to automate deployment. In addition, there are six yaml files to deploy the app on a kubernetes cluster, which aids in container ochestration.
 
@@ -205,6 +205,7 @@ flask-app_1  |  * Debugger PIN: 722-563-854
 To run this app on a Kubernetes cluster, enter the following commands in the console from which you have Kubernetes access - Please follow order:
 * `kubectl apply -f dwi67-test-redis-service.yml`
 * `kubectl apply -f dwi67-test-pvc.yml`
+* `dwi67-test-redis-deployment.yml`
 * `kubectl apply -f dwi67-test-flask-service.yml`
 * `kubectl apply -f dwi67-test-flask-deployment.yml`
 * `kubectl apply -f dwi67-test-python-debug.yml`
@@ -263,10 +264,9 @@ root@py-debug-deployment-f484b4b99-hk6pb:/# curl dwi67-test-flask-service:5000/g
   "HGNC:32248"
 ]
 ```
-##
 
 <details>
-<summary><b>Customization for Developers</b></summary>
+<summary><h3>Customization for Developers</h3></summary>
 
 * Running commands above will automatically pull the `dhannywi/gene-ius:kube` image from the docker hub.
 If you wish to use your own Flask API in the kubernetes cluster, you must change the name of image being pulled in `docker-compose.yml` and `dwi67-test-flask-deployment.yml` to your preferred image on Docker Hub and then re-apply the kubernetes depolyment.
@@ -291,6 +291,7 @@ metadata:
 ```
 
 </details>
+<br>
 
 ## Usage
 Once you have the docker image running with dependencies installed and the local server running, we can start querying using the REST API in the Flask app.
