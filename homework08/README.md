@@ -65,15 +65,15 @@ Since this is a Docker build, the requirements need not be installed, as it will
 * First, install Docker: `sudo apt-get install docker` or follow installation instructions for [Docker Desktop](https://www.docker.com/get-started/) for your system. We are using **Docker 20.10.12**
 * Next, install docker-compose: `sudo apt-get install docker-compose-plugin` or follow the instructions [here](https://docs.docker.com/compose/install/linux/). We are using **Docker Compose 1.25.0**
 * Clone the  repository: `git clone https://github.com/dhannywi/COE332.git`
-* Then, change directory into the `homework07` folder: `cd ./homework07/`
+* Then, change directory into the `homework08` folder: `cd ./homework08/`
 
 
 ### **Option 1:** Automate deployment using `docker-compose`
 The quickest way to get your services up and running is to use `docker-compose` to automate deployment.
-* Create a `data` folder inside the `homework07` directory. Execute `mkdir data`. This allows redis to store data in the disk so that the data persist, even when the services are killed.
+* Create a `data` folder inside the `homework08` directory. Execute `mkdir data`. This allows redis to store data in the disk so that the data persist, even when the services are killed.
 * Execute `docker-compose up --build`. Your images are built and services are up and running when you see this message:
 ```console
-username:~/COE332/homework08$ docker-compose up --build
+username:$ docker-compose up --build
 Creating network "homework08_default" with the default driver
 Building flask-app
 ...
@@ -97,19 +97,18 @@ flask-app_1  |  * Debugger PIN: 179-378-064
 
 * Execute `docker ps -a`. You should see the containers running.
 ```console
-username:~/COE332/homework08$ docker ps -a
+username:$ docker ps -a
 CONTAINER ID   IMAGE                    COMMAND                  CREATED          STATUS          PORTS                                       NAMES
 07fdf8858de5   dhannywi/gene-ius:kube   "python gene_api.py"     12 minutes ago   Up 12 minutes   0.0.0.0:5000->5000/tcp, :::5000->5000/tcp   homework08_flask-app_1
 c80cfdaab872   redis:7                  "docker-entrypoint.s…"   12 minutes ago   Up 12 minutes   0.0.0.0:6379->6379/tcp, :::6379->6379/tcp   homework08_redis-db_1
 ```
 
 ### **Option 2:** Build and run your own docker image
-* First, create a `data` folder inside the `homework07` directory. Execute `mkdir data`. This allows redis to store data in the disk so that the data persist even when the services are killed.
-* Pull docker image for redis, execute `docker pull redis:7`
-* Now, build the image: `docker build -t dhannywi/gene-ius .`
+* First, create a `data` folder inside the `homework08` directory. Execute `mkdir data`. This allows redis to store data in the disk so that the data persist even when the services are killed.
+* Now, build the image: `docker build -t <docker_username>/<app_name>:<version_number> .`
 This output shows that your build is successful:
 ```console
-username:~/COE332/homework07$ docker build -t dhannywi/gene-ius:kube .
+username:$ docker build -t dhannywi/gene-ius:kube .
 Sending build context to Docker daemon  58.37kB
 ...
 ...
@@ -119,7 +118,7 @@ Successfully tagged dhannywi/gene-ius:kube
 
 * Check the docker images currently running in your computer by executing: `docker images`. The image you just built would show up in the list of images:
 ```console
-username:~/COE332/homework08$ docker images
+username:$ docker images
 REPOSITORY             TAG       IMAGE ID       CREATED             SIZE
 dhannywi/gene-ius      kube      8a67666a6b16   2 minutes ago       1.06GB
 redis                  7         dd786f66ff99   8 minutes ago       117MB
@@ -127,7 +126,7 @@ redis                  7         dd786f66ff99   8 minutes ago       117MB
 
 * Execute `docker-compose up` and your services is up and running when you see the message:
 ```console
-username:~/COE332/homework08$ docker-compose up
+username:$ docker-compose up
 Creating network "homework08_default" with the default driver
 Building flask-app
 ...
@@ -153,10 +152,10 @@ flask-app_1  |  * Debugger PIN: 179-378-064
 
 If you madea any changes to the `gene_api.py` file, you will need to kill the existing services that's running and rebuild. Execute `docker-compose down`. The services are removed when you see the following message:
 ```console
-username:~/COE332/homework07$ docker-compose down
-Removing homework07_flask-app_1 ... done
-Removing homework07_redis-db_1  ... done
-Removing network homework07_default
+username:$ docker-compose down
+Removing homework08_flask-app_1 ... done
+Removing homework08_redis-db_1  ... done
+Removing network homework08_default
 ```
 </details>
 
@@ -167,51 +166,37 @@ Removing network homework07_default
 
 * To install the Docker container, first install Docker: `sudo apt-get install docker` or follow installation instructions for [Docker Desktop](https://www.docker.com/get-started/) for your system. We are using Docker 20.10.12
 
-* Next, pull the images from the docker hub and install the containers: `docker pull dhannywi/gene-ius` and `docker pull redis:7`
+* Next, pull the images from the docker hub and install the containers: `docker pull dhannywi/gene-ius:kube`
 
 * Check the docker images currently running in your computer by executing: `docker images`
 The image you just installed would show up in the list of images:
 ```console
-username:~/COE332/homework07$ docker images
-REPOSITORY             TAG       IMAGE ID       CREATED             SIZE
-dhannywi/gene-ius      latest    ba82680f899d   8 minutes ago       903MB
-redis                  7         dd786f66ff99   8 minutes ago       117MB
+username:$ docker images
+REPOSITORY            TAG       IMAGE ID       CREATED         SIZE
+dhannywi/gene-ius     kube      96ca98e4cc62   3 hours ago     1.06GB
 ```
 
 **Run**
 
 * Create a `data` folder inside the directory you are working on. Execute `mkdir data`. This allows redis to store data in the disk so that the data persist, even when the services are killed.
-* First run the Redis image and bind mount to the data folder you just created, execute: `docker run -d -p 6379:6379 -v </path/on/host>:/data redis:7 --save 1 1`.
-You can use the `$(pwd)` shortcut for the present working directory. For example:
+* Execute `docker-compose up` to automatically pull redis image, install dependencies and connect the network:
 ```console
-username:~$ docker run -p 6379:6379 -v /home/ubuntu/data:/data redis:7 --save 1 1
-1:C 29 Mar 2023 11:58:04.482 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
-1:C 29 Mar 2023 11:58:04.482 # Redis version=7.0.10, bits=64, commit=00000000, modified=0, pid=1, just started
-1:C 29 Mar 2023 11:58:04.482 # Configuration loaded
-1:M 29 Mar 2023 11:58:04.482 * monotonic clock: POSIX clock_gettime
-1:M 29 Mar 2023 11:58:04.483 * Running mode=standalone, port=6379.
-1:M 29 Mar 2023 11:58:04.483 # Server initialized
-1:M 29 Mar 2023 11:58:04.483 # WARNING Memory overcommit must be enabled! Without it, a background save or replication may fail under low memory condition. Being disabled, it can can also cause failures without low memory condition, see https://github.com/jemalloc/jemalloc/issues/1328. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.
-1:M 29 Mar 2023 11:58:04.484 * Ready to accept connections
-```
-* This will take over your terminal, so open a new terminal to move on to the next step.
-* To run the code, execute: `docker run -it --rm -p 5000:5000 dhannywi/gene-ius:kube` 
-The terminal should return a link, which can be viewed via a browser or with the curl commands documented in the API reference section. Your local server is up and running when you see this message:
-```console
-username:~$ docker run -it --rm -p 5000:5000 dhannywi/gene-ius:kube
- * Serving Flask app 'gene_api'
- * Debug mode: on
-WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
- * Running on all addresses (0.0.0.0)
- * Running on http://127.0.0.1:5000
- * Running on http://172.17.0.2:5000
-Press CTRL+C to quit
- * Restarting with stat
- * Debugger is active!
- * Debugger PIN: 463-886-503
+username:$ docker-compose up
+Creating network "homework08_default" with the default driver
+Creating homework08_redis-db_1 ... done
+Creating homework08_flask-app_1 ... done
+...
+redis-db_1   | 1:M 13 Apr 2023 20:27:21.171 * Ready to accept connections
+flask-app_1  |  * Serving Flask app 'gene_api'
+flask-app_1  |  * Debug mode: on
+...
+flask-app_1  | Press CTRL+C to quit
+flask-app_1  |  * Restarting with stat
+flask-app_1  |  * Debugger is active!
+flask-app_1  |  * Debugger PIN: 722-563-854
 ```
 * Check that all the services are running by executing `docker ps -a`
-* when you want to kill the services, execute `docker rm -f <container id you want to kill>`
+* When you want to kill the services, execute `docker rm -f <container id you want to kill>`
 </details>
 
 <br>
@@ -229,8 +214,6 @@ You will see a confirmation message after running each command. For example:
 username:$ kubectl apply -f dwi67-test-flask-deployment.yml
 deployment.apps/dwi67-test-flask-deployment configured
 ```
-**NOTE:** Running commands above will automatically pull the `dhannywi/gene-ius:kube` image from the docker hub.
-If you wish to use your own Flask API in the kubernetes cluster, you must change the image being pulled in `dwi67-test-flask-deployment` to your preferred image on Docker Hub and then re-apply the kubernetes depolyment.
 
 * Check that your services are running properly, execute `kubectl get services`
 ```console
@@ -280,6 +263,34 @@ root@py-debug-deployment-f484b4b99-hk6pb:/# curl dwi67-test-flask-service:5000/g
   "HGNC:32248"
 ]
 ```
+##
+
+<details>
+<summary><b>Customization for Developers</b></summary>
+
+* Running commands above will automatically pull the `dhannywi/gene-ius:kube` image from the docker hub.
+If you wish to use your own Flask API in the kubernetes cluster, you must change the name of image being pulled in `docker-compose.yml` and `dwi67-test-flask-deployment.yml` to your preferred image on Docker Hub and then re-apply the kubernetes depolyment.
+* You may also want to change the **Environment variable** in your `docker-compose.yml` to reflect your redis service name. Example:
+```console
+environment:
+  - REDIS_IP=<redis-service-name>
+```
+* The same change will also need to be done on the `flask-deployment.yml`:
+```console
+env:
+  - name: REDIS_IP
+    value: <redis-service-name>
+```
+* **Note** the <redis-service-name> need to match the name under `redis-service.yml` metadata. Example:
+```console
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: <redis-service-name>
+```
+
+</details>
 
 ## Usage
 Once you have the docker image running with dependencies installed and the local server running, we can start querying using the REST API in the Flask app.
