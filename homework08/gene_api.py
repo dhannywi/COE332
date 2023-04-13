@@ -9,9 +9,9 @@ import os
 import matplotlib.pyplot as plt
 
 app = Flask(__name__)
-rd = redis.Redis(host='redis-db', port=6379, db=0, decode_responses=True)
-rd_1 = redis.Redis(host='redis-db', port=6379, db=1)
-'''
+# rd = redis.Redis(host='redis-db', port=6379, db=0, decode_responses=True)
+# rd_1 = redis.Redis(host='redis-db', port=6379, db=1)
+
 redis_ip = os.environ.get('REDIS_IP')
 if not redis_ip:
     raise Exception()
@@ -19,7 +19,7 @@ if not redis_ip:
 rd = redis.Redis(host=redis_ip, port=6379, db=0, decode_responses=True)
 # initiate db tab 1 for plotting
 rd_1 = redis.Redis(host=redis_ip, port=6379, db=1)
-'''
+
 
 # ---------------------------- Methods ---------------------------------
 def get_config() -> dict:
