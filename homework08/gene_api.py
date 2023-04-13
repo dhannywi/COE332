@@ -100,7 +100,7 @@ def get_gene_data(hgnc_id: str) -> dict:
 
 
 @app.route('/image', methods=['POST', 'GET', 'DELETE']) 
-def get_image():
+def get_image() -> str:
     '''
     Function write/read/delete plot image in redis database depending on method requested.
     Returns plot image.
@@ -137,7 +137,7 @@ def get_image():
     elif request.method == 'GET':
         if len(rd.keys()) == 0:
             return 'No data in db.\n'
-        elif 'locus_plot' not in rd_1.keys():
+        elif b'locus_plot' not in rd_1.keys():
             return 'Plot not in db, pls execute "POST" method to create plot.\n'
         # get plot image from db
         path = './locus_grp.png'
